@@ -11,7 +11,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.0.12
-Release:	%mkrel 13
+Release:	%mkrel 14
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -60,7 +60,7 @@ Patch100:	nfs-utils-1.0.8-compile.diff
 Patch150:	nfs-utils-1.0.6-pie.patch
 Patch151:	nfs-utils-1.0.7-strip.patch
 Requires:	nfs-utils-clients
-Requires:	portmap >= 4.0
+Requires:	rpcbind
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
@@ -106,7 +106,7 @@ The following are valid build options.
 %package	clients
 Summary:	The utilities for Linux NFS client
 Group:		Networking/Other
-Requires:	portmap >= 4.0
+Requires:	rpcbind
 %if %{build_nfsv4}
 Requires:	kernel >= 2.6.0
 # needed because of service scripts transfer
@@ -374,5 +374,3 @@ rm -rf %{buildroot}
 %{_mandir}/man8/gssd.8*
 %{_mandir}/man8/idmapd.8*
 %endif
-
-
