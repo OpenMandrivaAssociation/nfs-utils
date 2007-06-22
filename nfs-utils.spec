@@ -11,7 +11,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.0.12
-Release:	%mkrel 14
+Release:	%mkrel 15
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -193,6 +193,7 @@ find . -type f | xargs perl -pi -e "s|\-lwrap||g"
 %endif
 	
 %build
+%serverbuild
 sh autogen.sh
 %configure2_5x \
     --with-statedir=%{_localstatedir}/nfs \
