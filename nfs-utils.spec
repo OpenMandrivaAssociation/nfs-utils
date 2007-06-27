@@ -29,10 +29,16 @@ Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
 # Local Patches (FC)
-#
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Patch54:	nfs-utils-1.0.7-mountd-stat64.patch
+# NFS4 patches
+Patch101:   nfs-utils-1.1.0-001-memory-leak-in-mountd.dif
+Patch102:   nfs-utils-1.1.0-002-mount-nfs-nfsv4-mounts-give.dif
+Patch103:   nfs-utils-1.1.0-003-gssd_fix_usage_message.dif
+Patch104:   nfs-utils-1.1.0-004-mount_fix_compiler_warning.dif
+Patch105:   nfs-utils-1.1.0-005-nfslib_move_pseudoflavor_to_common_location.dif
+Patch106:   nfs-utils-1.1.0-006-libnfs_add_secinfo_support.dif
 Requires:	nfs-utils-clients
 Requires:	rpcbind
 # needed because of /etc/exports transfer
@@ -126,6 +132,15 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
+
+%if %{build_nfsv4}
+%patch101 -p1 -b .memory-leak-in-mountd
+%patch102 -p1 -b .mount-nfs-nfsv4-mounts-give
+%patch103 -p1 -b .gssd_fix_usage_message
+%patch104 -p1 -b .mount_fix_compiler_warning
+%patch105 -p1 -b .nfslib_move_pseudoflavor_to_common_location
+%patch106 -p1 -b .libnfs_add_secinfo_support.dif
+%endif
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib|%{_libdir}|g" Mandriva/*
