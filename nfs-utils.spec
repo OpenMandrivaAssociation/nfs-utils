@@ -10,8 +10,8 @@
 
 Name:		nfs-utils
 Epoch:		1
-Version:	1.0.12
-Release:	%mkrel 15
+Version:	1.1.0
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -28,37 +28,11 @@ Source8:	rpcsvcgssd.init
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
-# for NFSv4
-Patch203: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-003-mount_non-nfs_options.dif
-Patch204: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-004-mount_fix_umount.dif
-Patch205: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-005-mount_sloppy.dif
-Patch206: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-006-mount_fix_exit_status.dif
-Patch207: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-007-mount_auth_none.dif
-Patch208: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-008-mount_fix_remount.dif
-Patch209: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-009-mount_fix_tcp_on_alpha.dif
-Patch210: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-010-mount_fix_for_multi_home_servers.dif
-Patch211: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-011-mount_stop_v4_umounts_pinging_remote_mountd.dif
-Patch212: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-012-mount_fix_comma_collision.dif
-Patch213: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-013-mount_fix_installation_location.dif
-Patch214: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-014-gssd_pipefsdir_pipefs_nfsdir.dif
-Patch215: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-015-libnfs_add_secinfo_processing.dif
-Patch216 http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-016-gssd_use_kernel_supported_enctypes.dif
-Patch217: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-017-gssd_handle_cfx_context.dif
-Patch218: http://www.citi.umich.edu/projects/nfsv4/linux/nfs-utils-patches/1.0.11-1/nfs-utils-1.0.11-018-automake_configure_catchall.dif
-
-Patch3:		nfs-utils-1.0.7-binary-or-shlib-defines-rpath.diff
-# (oe) boldly stolen from gentoo
-Patch40:	nfs-utils-1.0.7-gcc4.patch
-#
 # Local Patches (FC)
 #
-Patch50:	nfs-utils-1.0.5-statdpath.patch
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Patch54:	nfs-utils-1.0.7-mountd-stat64.patch
-Patch100:	nfs-utils-1.0.8-compile.diff
-Patch150:	nfs-utils-1.0.6-pie.patch
-Patch151:	nfs-utils-1.0.7-strip.patch
 Requires:	nfs-utils-clients
 Requires:	rpcbind
 # needed because of /etc/exports transfer
@@ -149,38 +123,9 @@ find . -type f -perm 0555 -exec chmod 755 {} \;
 find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %patch1 -p1 -b .eepro-support
-%if %{build_nfsv4}
-%patch203 -p1 -b .nfsv4
-%patch204 -p1 -b .nfsv4
-%patch205 -p1 -b .nfsv4
-%patch206 -p1 -b .nfsv4
-%patch207 -p1 -b .nfsv4
-%patch208 -p1 -b .nfsv4
-%patch209 -p1 -b .nfsv4
-%patch210 -p1 -b .nfsv4
-%patch211 -p1 -b .nfsv4
-%patch212 -p1 -b .nfsv4
-%patch213 -p1 -b .nfsv4
-%patch214 -p1 -b .nfsv4
-%patch215 -p1 -b .nfsv4
-%patch216 -p1 -b .nfsv4
-%patch217 -p1 -b .nfsv4
-%patch218 -p1 -b .nfsv4
-%endif
-#patch3 -p1 -b .binary-or-shlib-defines-rpath
-
-# (oe) boldly stolen from gentoo
-#patch40 -p1 -b .gcc4
-
-%patch50 -p1 -b .statdpath
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
-
-# Do the magic to get things to compile (FC)
-%patch100 -p1 -b .compile
-#patch150 -p1 -b .pie
-#patch151 -p1 -b .strip
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib|%{_libdir}|g" Mandriva/*
@@ -242,7 +187,7 @@ install -m0755 Mandriva/nfslock.init %{buildroot}%{_initrddir}/nfslock
 install -m0644 Mandriva/nfs.sysconfig %{buildroot}/etc/sysconfig/nfs
 
 touch %{buildroot}%{_localstatedir}/nfs/rmtab
-mv %{buildroot}%{_sbindir}/{rpc.lockd,rpc.statd} %{buildroot}/sbin/
+mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
 %if %{build_nfsv4}
 install -m0755 Mandriva/rpcidmapd.init %{buildroot}%{_initrddir}/rpcidmapd
@@ -347,11 +292,19 @@ rm -rf %{buildroot}
 %doc README
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs
 %{_initrddir}/nfslock
-/sbin/rpc.lockd
 /sbin/rpc.statd
+/sbin/mount.nfs
+/sbin/mount.nfs4
+/sbin/umount.nfs
+/sbin/umount.nfs4
+%{_sbindir}/sm-notify
+%{_sbindir}/start-statd
 %{_sbindir}/showmount
-%{_mandir}/man8/lockd.8*
-%{_mandir}/man8/rpc.lockd.8*
+%{_mandir}/man5/nfs.5*
+%{_mandir}/man8/mount.nfs.8*
+%{_mandir}/man8/rpc.sm-notify.8*
+%{_mandir}/man8/sm-notify.8*
+%{_mandir}/man8/umount.nfs.8*
 %{_mandir}/man8/rpc.statd.8*
 %{_mandir}/man8/statd.8*
 %{_mandir}/man8/showmount.8*
