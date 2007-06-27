@@ -40,7 +40,6 @@ Patch104:   nfs-utils-1.1.0-004-mount_fix_compiler_warning.dif
 Patch105:   nfs-utils-1.1.0-005-nfslib_move_pseudoflavor_to_common_location.dif
 Patch106:   nfs-utils-1.1.0-006-libnfs_add_secinfo_support.dif
 Requires:	nfs-utils-clients
-Requires:	rpcbind
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
@@ -82,7 +81,7 @@ The following are valid build options.
 %package	clients
 Summary:	The utilities for Linux NFS client
 Group:		Networking/Other
-Requires:	rpcbind
+Requires:	portmapper
 %if %{build_nfsv4}
 Requires:	kernel >= 2.6.0
 # needed because of service scripts transfer
