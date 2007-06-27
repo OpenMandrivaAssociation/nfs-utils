@@ -46,10 +46,6 @@ Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
-BuildRequires:	automake1.7
-BuildRequires:	autoconf2.5
-BuildRequires:	pkgconfig
-BuildRequires:	libtool
 %if %{build_nfsv4}
 Requires:	    kernel >= 2.6.0
 BuildRequires:	krb5-devel >= 1.3
@@ -154,7 +150,6 @@ find . -type f | xargs perl -pi -e "s|\-lwrap||g"
 	
 %build
 %serverbuild
-sh autogen.sh
 %configure2_5x \
     --with-statedir=%{_localstatedir}/nfs \
     --with-statduser=rpcuser \
