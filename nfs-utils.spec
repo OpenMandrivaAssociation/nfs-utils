@@ -1,10 +1,7 @@
-%define build_nfsv4 1
 %define build_wrap 1
 
 # commandline overrides:
 # rpm -ba|--rebuild --with 'xxx'
-%{?_without_nfsv4:	%global build_nfsv4 0}
-%{?_with_nfsv4:		%global build_nfsv4 1}
 %{?_without_wrap:	%global build_wrap 0}
 %{?_with_wrap:		%global build_wrap 1}
 
@@ -22,7 +19,6 @@ Source2:	nfs-common.init
 Source3:	nfs-server.init
 Source4:	nfs-common.sysconfig
 Source5:	nfs-server.sysconfig
-
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
@@ -44,14 +40,12 @@ Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
-%if %{build_nfsv4}
 Requires:	    kernel >= 2.6.0
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libevent-devel
 BuildRequires:	nfsidmap-devel >= 0.16
 BuildRequires:	gssapi-devel >= 0.9
 BuildRequires:	rpcsecgss-devel >= 0.12
-%endif
 %if %{build_wrap}
 Requires:	    tcp_wrappers
 BuildRequires:	tcp_wrappers-devel
@@ -74,18 +68,15 @@ The following are valid build options.
 
 (ie. use with rpm --rebuild):
 
-    --without nfsv4	Build with NFS protocol v4 support
     --without wrap	Build with tcp_wrappers support
 
 %package	clients
 Summary:	The utilities for Linux NFS client
 Group:		Networking/Other
 Requires:	portmapper
-%if %{build_nfsv4}
 Requires:	kernel >= 2.6.0
 # needed because of service scripts transfer
 Conflicts:  nfs-utils <= 1:1.0.12-2mdv2007.1
-%endif
 Requires(pre): rpm-helper
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -121,14 +112,12 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
 
-%if %{build_nfsv4}
 %patch101 -p1 -b .memory-leak-in-mountd
 %patch102 -p1 -b .mount-nfs-nfsv4-mounts-give
 %patch103 -p1 -b .gssd_fix_usage_message
 %patch104 -p1 -b .mount_fix_compiler_warning
 %patch105 -p1 -b .nfslib_move_pseudoflavor_to_common_location
 %patch106 -p1 -b .libnfs_add_secinfo_support.dif
-%endif
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib|%{_libdir}|g" Mandriva/*
@@ -146,17 +135,10 @@ find . -type f | xargs perl -pi -e "s|\-lwrap||g"
     --with-statedir=%{_localstatedir}/nfs \
     --with-statduser=rpcuser \
     --enable-nfsv3 \
-%if %{build_nfsv4}
     --enable-nfsv4 \
     --enable-gss \
     --enable-secure-statd \
     --with-krb5=%{_prefix} \
-%else
-    --disable-nfsv4 \
-    --disable-gss \
-    --disable-secure-statd \
-    --without-krb5 \
-%endif
     --disable-rquotad
 
 make all
@@ -192,11 +174,9 @@ install -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/nfs-server
 touch %{buildroot}%{_localstatedir}/nfs/rmtab
 mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
-%if %{build_nfsv4}
 install -m 644 Mandriva/idmapd.conf %{buildroot}%{_sysconfdir}/idmapd.conf
 install -m 644 Mandriva/gssapi_mech.conf %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 install -d %{buildroot}%{_localstatedir}/nfs/rpc_pipefs
-%endif
 
 # nuke dupes
 rm -f %{buildroot}%{_sbindir}/rpcdebug
@@ -244,6 +224,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README ChangeLog COPYING README.urpmi
 %doc nfs/*.html nfs/*.ps linux-nfs
+%doc Mandriva/nfsv4.schema
 %{_initrddir}/nfs-server
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-server
 %config(noreplace) %ghost %{_localstatedir}/nfs/xtab
@@ -265,13 +246,10 @@ rm -rf %{buildroot}
 %{_mandir}/man8/nfsstat.8*
 %{_mandir}/man8/rpc.mountd.8*
 %{_mandir}/man8/rpc.nfsd.8*
-%if %{build_nfsv4}
-%doc Mandriva/nfsv4.schema
 %{_sbindir}/rpc.svcgssd
 %{_mandir}/man8/rpc.svcgssd.8*
 %{_mandir}/man8/svcgssd.8*
 %{_mandir}/man8/rpcdebug.8*
-%endif
 
 %files clients
 %defattr(-,root,root)
@@ -298,7 +276,6 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/nfs/v4recovery
 %dir %{_localstatedir}/nfs/state
 %dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/statd
-%if %{build_nfsv4}
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %dir %{_localstatedir}/nfs/rpc_pipefs
@@ -311,4 +288,3 @@ rm -rf %{buildroot}
 %{_mandir}/man8/rpc.idmapd.8*
 %{_mandir}/man8/gssd.8*
 %{_mandir}/man8/idmapd.8*
-%endif
