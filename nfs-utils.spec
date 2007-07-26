@@ -18,13 +18,12 @@ License:	GPL
 URL:		http://sourceforge.net/projects/nfs/
 Source0:	http://prdownloads.sourceforge.net/nfs/%{name}-%{version}.tar.gz
 Source1:	ftp://nfs.sourceforge.net/pub/nfs/nfs.doc.tar.bz2
-Source2:	nfs.init
-Source3:	nfs.sysconfig
-Source4:	nfslock.init
-Source5:	nfsv4.schema
-Source6:	rpcgssd.init
-Source7:	rpcidmapd.init
-Source8:	rpcsvcgssd.init
+Source2:	nfs-common.init
+Source3:	nfs-server.init
+Source4:	nfs-common.sysconfig
+Source5:	nfs-server.sysconfig
+
+Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
@@ -108,13 +107,7 @@ that host.
 %setup -q -a1 -n %{name}-%{version}
 
 mkdir -p Mandriva
-cp %{SOURCE2} Mandriva/nfs.init
-cp %{SOURCE3} Mandriva/nfs.sysconfig
-cp %{SOURCE4} Mandriva/nfslock.init
-cp %{SOURCE5} Mandriva/nfsv4.schema
-cp %{SOURCE6} Mandriva/rpcgssd.init
-cp %{SOURCE7} Mandriva/rpcidmapd.init
-cp %{SOURCE8} Mandriva/rpcsvcgssd.init
+cp %{SOURCE8} Mandriva/nfsv4.schema
 cp %{SOURCE9} Mandriva/gssapi_mech.conf
 cp %{SOURCE10} Mandriva/idmapd.conf
 
@@ -191,19 +184,17 @@ install -m0755 tools/rpcdebug/rpcdebug %{buildroot}/sbin/
 ln -snf rpcdebug %{buildroot}/sbin/nfsdebug
 ln -snf rpcdebug %{buildroot}/sbin/nfsddebug
 
-install -m0755 Mandriva/nfs.init %{buildroot}%{_initrddir}/nfs
-install -m0755 Mandriva/nfslock.init %{buildroot}%{_initrddir}/nfslock
-install -m0644 Mandriva/nfs.sysconfig %{buildroot}/etc/sysconfig/nfs
+install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/nfs-common
+install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/nfs-server
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/nfs-common
+install -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/nfs-server
 
 touch %{buildroot}%{_localstatedir}/nfs/rmtab
 mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
 %if %{build_nfsv4}
-install -m0755 Mandriva/rpcidmapd.init %{buildroot}%{_initrddir}/rpcidmapd
-install -m0755 Mandriva/rpcgssd.init %{buildroot}%{_initrddir}/rpcgssd
-install -m0755 Mandriva/rpcsvcgssd.init %{buildroot}%{_initrddir}/rpcsvcgssd
-install -m0644 Mandriva/idmapd.conf %{buildroot}%{_sysconfdir}/idmapd.conf
-install -m0644 Mandriva/gssapi_mech.conf %{buildroot}%{_sysconfdir}/gssapi_mech.conf
+install -m 644 Mandriva/idmapd.conf %{buildroot}%{_sysconfdir}/idmapd.conf
+install -m 644 Mandriva/gssapi_mech.conf %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 install -d %{buildroot}%{_localstatedir}/nfs/rpc_pipefs
 %endif
 
@@ -225,37 +216,23 @@ launch rpc.idmapd and optionally rpc.rpcgssd services manually.
 EOF
 
 %post
-%_post_service nfs
-%if %{build_nfsv4}
-%_post_service rpcsvcgssd
-%endif
+%_post_service nfs-server
 
 %create_ghostfile %{_localstatedir}/nfs/xtab root root 644
 %create_ghostfile %{_localstatedir}/nfs/etab root root 644
 %create_ghostfile %{_localstatedir}/nfs/rmtab root root 644
 
 %preun
-%_preun_service nfs
-%if %{build_nfsv4}
-%_preun_service rpcsvcgssd
-%endif
+%_preun_service nfs-server
 
 %pre clients
 %_pre_useradd rpcuser %{_localstatedir}/nfs /bin/false
 
 %post clients
-%_post_service nfslock 
-%if %{build_nfsv4}
-%_post_service rpcidmapd
-%_post_service rpcgssd
-%endif
+%_post_service nfs-common
 
 %preun clients
-%_preun_service nfslock
-%if %{build_nfsv4}
-%_preun_service rpcidmapd
-%_preun_service rpcgssd
-%endif
+%_preun_service nfs-common
 
 %postun clients
 %_postun_userdel rpcuser
@@ -267,7 +244,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README ChangeLog COPYING README.urpmi
 %doc nfs/*.html nfs/*.ps linux-nfs
-%{_initrddir}/nfs
+%{_initrddir}/nfs-server
+%config(noreplace) %{_sysconfdir}/sysconfig/nfs-server
 %config(noreplace) %ghost %{_localstatedir}/nfs/xtab
 %config(noreplace) %ghost %{_localstatedir}/nfs/etab
 %config(noreplace) %ghost %{_localstatedir}/nfs/rmtab
@@ -289,7 +267,6 @@ rm -rf %{buildroot}
 %{_mandir}/man8/rpc.nfsd.8*
 %if %{build_nfsv4}
 %doc Mandriva/nfsv4.schema
-%{_initrddir}/rpcsvcgssd
 %{_sbindir}/rpc.svcgssd
 %{_mandir}/man8/rpc.svcgssd.8*
 %{_mandir}/man8/svcgssd.8*
@@ -299,8 +276,8 @@ rm -rf %{buildroot}
 %files clients
 %defattr(-,root,root)
 %doc README
-%config(noreplace) %{_sysconfdir}/sysconfig/nfs
-%{_initrddir}/nfslock
+%config(noreplace) %{_sysconfdir}/sysconfig/nfs-common
+%{_initrddir}/nfs-common
 /sbin/rpc.statd
 /sbin/mount.nfs
 /sbin/mount.nfs4
@@ -329,8 +306,6 @@ rm -rf %{buildroot}
 %{_sbindir}/rpc.gssd
 %{_sbindir}/gss_clnt_send_err
 %{_sbindir}/gss_destroy_creds
-%{_initrddir}/rpcidmapd
-%{_initrddir}/rpcgssd
 %{_mandir}/man5/idmapd.conf.5*
 %{_mandir}/man8/rpc.gssd.8*
 %{_mandir}/man8/rpc.idmapd.8*
