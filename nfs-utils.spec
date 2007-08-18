@@ -155,6 +155,7 @@ install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -d %{buildroot}%{_localstatedir}/nfs/statd
 install -d %{buildroot}%{_localstatedir}/nfs/v4recovery
+install -d %{buildroot}%{_localstatedir}/nfs/sm
 
 %make \
 	DESTDIR=%{buildroot} \
@@ -275,6 +276,7 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/nfs
 %dir %{_localstatedir}/nfs/v4recovery
 %dir %{_localstatedir}/nfs/state
+%dir %{_localstatedir}/nfs/sm
 %dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/statd
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
