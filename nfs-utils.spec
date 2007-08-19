@@ -8,7 +8,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -198,6 +198,11 @@ EOF
 
 %post
 %_post_service nfs-server
+# don't leave dangling symlinks behind on upgrade
+if [ $1 = 2 ]; then
+    [ -f %{_initrddir}/nfs ]        && chkconfig --del nfs
+    [ -f %{_initrddir}/rpcsvcgssd ] && chkconfig --del rpcsvcgssd
+fi
 
 %create_ghostfile %{_localstatedir}/nfs/xtab root root 644
 %create_ghostfile %{_localstatedir}/nfs/etab root root 644
@@ -211,6 +216,12 @@ EOF
 
 %post clients
 %_post_service nfs-common
+# don't leave dangling symlinks behind on upgrade
+if [ $1 = 2 ]; then
+    [ -f %{_initrddir}/nfslock ]   && chkconfig --del nfslock
+    [ -f %{_initrddir}/rpcgssd ]   && chkconfig --del rpcgssd
+    [ -f %{_initrddir}/rpcidmapd ] && chkconfig --del rpcidmapd
+fi
 
 %preun clients
 %_preun_service nfs-common
