@@ -8,7 +8,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -202,6 +202,8 @@ EOF
 if [ $1 = 2 ]; then
     [ -f %{_initrddir}/nfs ]        && chkconfig --del nfs
     [ -f %{_initrddir}/rpcsvcgssd ] && chkconfig --del rpcsvcgssd
+    # always finish with a true status, otherwise rpm barks
+    /bin/true
 fi
 
 %create_ghostfile %{_localstatedir}/nfs/xtab root root 644
@@ -221,6 +223,8 @@ if [ $1 = 2 ]; then
     [ -f %{_initrddir}/nfslock ]   && chkconfig --del nfslock
     [ -f %{_initrddir}/rpcgssd ]   && chkconfig --del rpcgssd
     [ -f %{_initrddir}/rpcidmapd ] && chkconfig --del rpcidmapd
+    # always finish with a true status, otherwise rpm barks
+    /bin/true
 fi
 
 %preun clients
