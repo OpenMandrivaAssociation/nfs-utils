@@ -8,7 +8,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 3
+Release:	%mkrel 4
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
