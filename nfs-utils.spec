@@ -8,7 +8,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -145,9 +145,6 @@ make all
 
 %install
 rm -rf %{buildroot}
-
-# don't fiddle with the initscript!
-export DONT_GPRINTIFY=1
 
 install -d %{buildroot}{/sbin,/usr/sbin}
 install -d %{buildroot}%{_mandir}/{man5,man8}
