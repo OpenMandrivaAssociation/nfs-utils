@@ -82,11 +82,6 @@ that host.
 %prep
 %setup -q -a1 -n %{name}-%{version}
 
-mkdir -p Mandriva
-cp %{SOURCE8} Mandriva/nfsv4.schema
-cp %{SOURCE9} Mandriva/gssapi_mech.conf
-cp %{SOURCE10} Mandriva/idmapd.conf
-
 # fix strange perms
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
@@ -105,9 +100,7 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 %patch105 -p1 -b .nfslib_move_pseudoflavor_to_common_location
 %patch106 -p1 -b .libnfs_add_secinfo_support.dif
 
-# lib64 fixes
-perl -pi -e "s|/usr/lib|%{_libdir}|g" Mandriva/*
-perl -pi -e "s|\\$dir/lib/|\\$dir/%{_lib}/|g" configure
+cp %{SOURCE8} nfsv4.schema
 
 %build
 autoreconf
@@ -153,8 +146,9 @@ install -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/nfs-server
 touch %{buildroot}%{_localstatedir}/nfs/rmtab
 mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
-install -m 644 Mandriva/idmapd.conf %{buildroot}%{_sysconfdir}/idmapd.conf
-install -m 644 Mandriva/gssapi_mech.conf %{buildroot}%{_sysconfdir}/gssapi_mech.conf
+install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/idmapd.conf
+install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/gssapi_mech.conf
+perl -pi -e "s|/usr/lib|%{_libdir}|g" %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 install -d %{buildroot}%{_localstatedir}/nfs/rpc_pipefs
 
 # nuke dupes
@@ -218,7 +212,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README ChangeLog COPYING README.urpmi
 %doc nfs/*.html nfs/*.ps linux-nfs
-%doc Mandriva/nfsv4.schema
+%doc nfsv4.schema
 %{_initrddir}/nfs-server
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-server
 %config(noreplace) %ghost %{_localstatedir}/nfs/xtab
