@@ -1,10 +1,3 @@
-%define build_wrap 1
-
-# commandline overrides:
-# rpm -ba|--rebuild --with 'xxx'
-%{?_without_wrap:	%global build_wrap 0}
-%{?_with_wrap:		%global build_wrap 1}
-
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
@@ -23,6 +16,7 @@ Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
+Patch2:		nfs-utils-1.1.0-gssglue.patch
 # Local Patches (FC)
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
@@ -41,14 +35,12 @@ Conflicts:	clusternfs
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 Requires:	    kernel >= 2.6.0
+Requires:	    tcp_wrappers
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libevent-devel
 BuildRequires:	nfsidmap-devel >= 0.16
 BuildRequires:	rpcsecgss-devel >= 0.12
-%if %{build_wrap}
-Requires:	    tcp_wrappers
 BuildRequires:	tcp_wrappers-devel
-%endif
 Buildroot:	%{_tmppath}/%{name}-%{version}
 
 %description
@@ -62,12 +54,6 @@ queries the mount daemon on a remote host for information about
 the NFS (Network File System) server on the remote host. For
 example, showmount can display the clients which are mounted on
 that host.
-
-The following are valid build options.
-
-(ie. use with rpm --rebuild):
-
-    --without wrap	Build with tcp_wrappers support
 
 %package	clients
 Summary:	The utilities for Linux NFS client
@@ -107,6 +93,7 @@ find . -type f -perm 0555 -exec chmod 755 {} \;
 find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %patch1 -p1 -b .eepro-support
+%patch2 -p1 -b .gssglue
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
@@ -122,13 +109,8 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 perl -pi -e "s|/usr/lib|%{_libdir}|g" Mandriva/*
 perl -pi -e "s|\\$dir/lib/|\\$dir/%{_lib}/|g" configure
 
-%if ! %{build_wrap}
-# nuke tcp_wrappers
-find . -type f | xargs perl -pi -e "s|\-DHAVE_TCP_WRAPPER||g"
-find . -type f | xargs perl -pi -e "s|\-lwrap||g"
-%endif
-	
 %build
+autoreconf
 %serverbuild
 %configure2_5x \
     --with-statedir=%{_localstatedir}/nfs \
