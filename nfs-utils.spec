@@ -8,7 +8,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 5
+Release:	%mkrel 6
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -44,7 +44,6 @@ Requires:	    kernel >= 2.6.0
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libevent-devel
 BuildRequires:	nfsidmap-devel >= 0.16
-BuildRequires:	gssapi-devel >= 0.9
 BuildRequires:	rpcsecgss-devel >= 0.12
 %if %{build_wrap}
 Requires:	    tcp_wrappers
