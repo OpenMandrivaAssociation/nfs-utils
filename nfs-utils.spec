@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 6
+Release:	%mkrel 7
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -159,15 +159,6 @@ cat >%{buildroot}%{_sysconfdir}/exports <<EOF
 #               to NFS clients.  See exports(5).
 EOF
 
-cat > README.urpmi << EOF
-NFS4 support
-------------
-This package supports NFS4. In order to use it on server side, you need to set
-USE_NFS4 and optionally SECURE_NFS in /etc/sysconfig/nfs file, so as to have
-the nfs service handle everything automatically. On client side, you need to
-launch rpc.idmapd and optionally rpc.rpcgssd services manually.
-EOF
-
 %post
 %_post_service nfs-server
 # don't leave dangling symlinks behind on upgrade
@@ -210,7 +201,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README ChangeLog COPYING README.urpmi
+%doc README ChangeLog COPYING
 %doc nfs/*.html nfs/*.ps linux-nfs
 %doc nfsv4.schema
 %{_initrddir}/nfs-server
