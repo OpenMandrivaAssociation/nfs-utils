@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 7
+Release:	%mkrel 8
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -159,11 +159,28 @@ cat >%{buildroot}%{_sysconfdir}/exports <<EOF
 #               to NFS clients.  See exports(5).
 EOF
 
+cat >README.1.10.upgrade.urpmi <<EOF
+This release changed organisation of init scripts:
+- rpcidmapd, rpcgssd and nfslock have been merged in nfs-common
+- rpcsvcgssd and nfs have been merged in nfs-server
+Individual daemons handled previously by those init scripts are now handled
+automatically, according to current nfs configuration and to init scripts
+configuration files /etc/sysconfig/nfs-common and /etc/sysconfig/nfs-server.
+second.
+EOF
+
 %post
 %_post_service nfs-server
-# don't leave dangling symlinks behind on upgrade
 if [ $1 = 2 ]; then
-    [ -f %{_initrddir}/nfs ]        && chkconfig --del nfs
+    # handle upgrade from previous init script scheme
+    if [ -f %{_initrddir}/nfs ]; then
+        # map activation status of old script
+        if [ `LC_ALL=C chkconfig --list nfs | cut -f 5` == '3:on' ]; then
+            chkconfig --add nfs-server
+        fi
+        # don't leave dangling symlinks
+        chkconfig --del nfs
+    fi
     [ -f %{_initrddir}/rpcsvcgssd ] && chkconfig --del rpcsvcgssd
     # always finish with a true status, otherwise rpm barks
     /bin/true
@@ -181,9 +198,16 @@ fi
 
 %post clients
 %_post_service nfs-common
-# don't leave dangling symlinks behind on upgrade
 if [ $1 = 2 ]; then
-    [ -f %{_initrddir}/nfslock ]   && chkconfig --del nfslock
+    # handle upgrade from previous init script scheme
+    if [ -f %{_initrddir}/nfslock ]; then
+        # map activation status of old script
+        if [ `LC_ALL=C chkconfig --list nfslock | cut -f 5` == '3:on' ]; then
+            chkconfig --add nfs-common
+        fi
+        # don't leave dangling symlinks
+        chkconfig --del nfslock
+    fi
     [ -f %{_initrddir}/rpcgssd ]   && chkconfig --del rpcgssd
     [ -f %{_initrddir}/rpcidmapd ] && chkconfig --del rpcidmapd
     # always finish with a true status, otherwise rpm barks
@@ -201,7 +225,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README ChangeLog COPYING
+%doc README README.1.10.upgrade.urpmi ChangeLog COPYING
 %doc nfs/*.html nfs/*.ps linux-nfs
 %doc nfsv4.schema
 %{_initrddir}/nfs-server
