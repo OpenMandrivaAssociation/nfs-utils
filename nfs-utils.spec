@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 8
+Release:	%mkrel 9
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -159,14 +159,13 @@ cat >%{buildroot}%{_sysconfdir}/exports <<EOF
 #               to NFS clients.  See exports(5).
 EOF
 
-cat >README.1.10.upgrade.urpmi <<EOF
+cat >README.1.1.0.upgrade.urpmi <<EOF
 This release changed organisation of init scripts:
 - rpcidmapd, rpcgssd and nfslock have been merged in nfs-common
 - rpcsvcgssd and nfs have been merged in nfs-server
 Individual daemons handled previously by those init scripts are now handled
 automatically, according to current nfs configuration and to init scripts
 configuration files /etc/sysconfig/nfs-common and /etc/sysconfig/nfs-server.
-second.
 EOF
 
 %post
@@ -225,7 +224,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README README.1.10.upgrade.urpmi ChangeLog COPYING
+%doc README README.1.1.0.upgrade.urpmi ChangeLog COPYING
 %doc nfs/*.html nfs/*.ps linux-nfs
 %doc nfsv4.schema
 %{_initrddir}/nfs-server
