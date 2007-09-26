@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.0
-Release:	%mkrel 9
+Release:	%mkrel 10
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -17,6 +17,7 @@ Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
 Patch2:		nfs-utils-1.1.0-gssglue.patch
+Patch3:		nfs-utils-1.1.0-perms.patch
 # Local Patches (FC)
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
@@ -89,6 +90,7 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %patch1 -p1 -b .eepro-support
 %patch2 -p1 -b .gssglue
+%patch3 -p1 -b .perms
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
