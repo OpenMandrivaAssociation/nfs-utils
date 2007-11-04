@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.1.0
-Release:	%mkrel 11
+Version:	1.1.1
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -16,19 +16,21 @@ Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Patch1:		eepro-support.patch
-Patch2:		nfs-utils-1.1.0-gssglue.patch
 Patch3:		nfs-utils-1.1.0-perms.patch
 # Local Patches (FC)
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Patch54:	nfs-utils-1.0.7-mountd-stat64.patch
 # NFS4 patches
-Patch101:   nfs-utils-1.1.0-001-memory-leak-in-mountd.dif
-Patch102:   nfs-utils-1.1.0-002-mount-nfs-nfsv4-mounts-give.dif
-Patch103:   nfs-utils-1.1.0-003-gssd_fix_usage_message.dif
-Patch104:   nfs-utils-1.1.0-004-mount_fix_compiler_warning.dif
-Patch105:   nfs-utils-1.1.0-005-nfslib_move_pseudoflavor_to_common_location.dif
-Patch106:   nfs-utils-1.1.0-006-libnfs_add_secinfo_support.dif
+Patch101:   nfs-utils-1.1.1-001-xlog_segfault_fix.dif
+Patch102:   nfs-utils-1.1.1-002-svcgssd_pass_down_principal_name.dif
+Patch103:   nfs-utils-1.1.1-003-gssd_refactor_update_client_list.dif
+Patch104:   nfs-utils-1.1.1-004-gssd_add_callback_authentication.dif
+Patch105:   nfs-utils-1.1.1-005-gssd_read_port_and_principal.dif
+Patch106:   nfs-utils-1.1.1-006-gssd_print_clnt_directory_being_handled.dif
+Patch107:   nfs-utils-1.1.1-007-gssd_use_kernel_supported_enctypes.dif
+Patch108:   nfs-utils-1.1.1-008-gssd_handle_cfx_context.dif
+Patch109:   nfs-utils-1.1.1-009-automake_configure_catchall.dif
 Requires:	nfs-utils-clients
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -89,18 +91,20 @@ find . -type f -perm 0555 -exec chmod 755 {} \;
 find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %patch1 -p1 -b .eepro-support
-%patch2 -p1 -b .gssglue
 %patch3 -p1 -b .perms
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
 
-%patch101 -p1 -b .memory-leak-in-mountd
-%patch102 -p1 -b .mount-nfs-nfsv4-mounts-give
-%patch103 -p1 -b .gssd_fix_usage_message
-%patch104 -p1 -b .mount_fix_compiler_warning
-%patch105 -p1 -b .nfslib_move_pseudoflavor_to_common_location
-%patch106 -p1 -b .libnfs_add_secinfo_support.dif
+%patch101 -p1 -b .xlog_segfault_fix
+%patch102 -p1 -b .svcgssd_pass_down_principal_name
+%patch103 -p1 -b .gssd_refactor_update_client_list
+%patch104 -p1 -b .gssd_add_callback_authentication
+%patch105 -p1 -b .gssd_read_port_and_principal
+%patch106 -p1 -b .gssd_print_clnt_directory_being_handled
+%patch107 -p1 -b .gssd_use_kernel_supported_enctypes
+%patch108 -p1 -b .gssd_handle_cfx_context
+%patch109 -p1 -b .automake_configure_catchall
 
 cp %{SOURCE8} nfsv4.schema
 
