@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -21,6 +21,7 @@ Patch3:		nfs-utils-1.1.0-perms.patch
 Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Patch54:	nfs-utils-1.0.7-mountd-stat64.patch
+Patch55:	nfs-utils-1.1.1-non-writable-mtab.patch
 # NFS4 patches
 Patch101:   nfs-utils-1.1.1-001-xlog_segfault_fix.dif
 Patch102:   nfs-utils-1.1.1-002-svcgssd_pass_down_principal_name.dif
@@ -95,6 +96,7 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 %patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
 %patch54 -p1 -b .stat64
+%patch55 -p1 -b .non-writable-mtab
 
 %patch101 -p1 -b .xlog_segfault_fix
 %patch102 -p1 -b .svcgssd_pass_down_principal_name
