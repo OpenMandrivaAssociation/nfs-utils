@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.1
-Release:	%mkrel 5
+Release:	%mkrel 6
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -285,7 +285,7 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/nfs
 %dir %{_localstatedir}/nfs/v4recovery
 %dir %{_localstatedir}/nfs/state
-%dir %{_localstatedir}/nfs/sm
+%dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/sm
 %dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/statd
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
