@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.1
-Release:	%mkrel 6
+Release:	%mkrel 7
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -38,7 +38,6 @@ Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
-Requires:	    kernel >= 2.6.0
 Requires:	    tcp_wrappers
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libevent-devel
