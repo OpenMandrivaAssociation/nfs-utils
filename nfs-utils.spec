@@ -174,6 +174,12 @@ automatically, according to current nfs configuration and to init scripts
 configuration files /etc/sysconfig/nfs-common and /etc/sysconfig/nfs-server.
 EOF
 
+# manage documentation manually
+install -d -m 755 %{buildroot}%{_docdir}/%{name}
+install -m 644 README README.1.1.0.upgrade.urpmi ChangeLog COPYING NEWS \
+               nfs/*.html nfs/*.ps nfsv4.schema \
+               %{buildroot}%{_docdir}/%{name}
+
 %post
 %_post_service nfs-server
 if [ $1 = 2 ]; then
@@ -230,9 +236,8 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README README.1.1.0.upgrade.urpmi ChangeLog COPYING
-%doc nfs/*.html nfs/*.ps linux-nfs
-%doc nfsv4.schema
+%{_docdir}/%{name}/*
+%exclude %{_docdir}/%{name}/README*
 %{_initrddir}/nfs-server
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-server
 %config(noreplace) %ghost %{_localstatedir}/nfs/xtab
@@ -261,7 +266,8 @@ rm -rf %{buildroot}
 
 %files clients
 %defattr(-,root,root)
-%doc README
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/README*
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-common
 %{_initrddir}/nfs-common
 /sbin/rpc.statd
