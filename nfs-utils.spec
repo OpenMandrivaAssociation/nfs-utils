@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -34,7 +34,7 @@ BuildRequires:	libevent-devel
 BuildRequires:	nfsidmap-devel >= 0.16
 BuildRequires:	rpcsecgss-devel >= 0.12
 BuildRequires:	tcp_wrappers-devel
-Buildroot:	%{_tmppath}/%{name}-%{version}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The nfs-utils package provides a daemon for the kernel NFS server
