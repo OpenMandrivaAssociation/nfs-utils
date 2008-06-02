@@ -92,7 +92,7 @@ cp %{SOURCE8} nfsv4.schema
 autoreconf
 %serverbuild
 %configure2_5x \
-    --with-statedir=%{_localstatedir}/nfs \
+    --with-statedir=%{_localstatedir}/lib/nfs \
     --with-statduser=rpcuser \
     --enable-nfsv3 \
     --enable-nfsv4 \
@@ -110,9 +110,9 @@ install -d %{buildroot}{/sbin,/usr/sbin}
 install -d %{buildroot}%{_mandir}/{man5,man8}
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
-install -d %{buildroot}%{_localstatedir}/nfs/statd
-install -d %{buildroot}%{_localstatedir}/nfs/v4recovery
-install -d %{buildroot}%{_localstatedir}/nfs/sm
+install -d %{buildroot}%{_localstatedir}/lib/nfs/statd
+install -d %{buildroot}%{_localstatedir}/lib/nfs/v4recovery
+install -d %{buildroot}%{_localstatedir}/lib/nfs/sm
 
 %make \
 	DESTDIR=%{buildroot} \
@@ -129,13 +129,13 @@ install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/nfs-server
 install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/nfs-common
 install -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/nfs-server
 
-touch %{buildroot}%{_localstatedir}/nfs/rmtab
+touch %{buildroot}%{_localstatedir}/lib/nfs/rmtab
 mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
 install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/idmapd.conf
 install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 perl -pi -e "s|/usr/lib|%{_libdir}|g" %{buildroot}%{_sysconfdir}/gssapi_mech.conf
-install -d %{buildroot}%{_localstatedir}/nfs/rpc_pipefs
+install -d %{buildroot}%{_localstatedir}/lib/nfs/rpc_pipefs
 
 # nuke dupes
 rm -f %{buildroot}%{_sbindir}/rpcdebug
@@ -177,15 +177,15 @@ if [ $1 = 2 ]; then
     /bin/true
 fi
 
-%create_ghostfile %{_localstatedir}/nfs/xtab root root 644
-%create_ghostfile %{_localstatedir}/nfs/etab root root 644
-%create_ghostfile %{_localstatedir}/nfs/rmtab root root 644
+%create_ghostfile %{_localstatedir}/lib/nfs/xtab root root 644
+%create_ghostfile %{_localstatedir}/lib/nfs/etab root root 644
+%create_ghostfile %{_localstatedir}/lib/nfs/rmtab root root 644
 
 %preun
 %_preun_service nfs-server
 
 %pre clients
-%_pre_useradd rpcuser %{_localstatedir}/nfs /bin/false
+%_pre_useradd rpcuser %{_localstatedir}/lib/nfs /bin/false
 
 %post clients
 %_post_service nfs-common
@@ -220,9 +220,9 @@ rm -rf %{buildroot}
 %exclude %{_docdir}/%{name}/README*
 %{_initrddir}/nfs-server
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-server
-%config(noreplace) %ghost %{_localstatedir}/nfs/xtab
-%config(noreplace) %ghost %{_localstatedir}/nfs/etab
-%config(noreplace) %ghost %{_localstatedir}/nfs/rmtab
+%config(noreplace) %ghost %{_localstatedir}/lib/nfs/xtab
+%config(noreplace) %ghost %{_localstatedir}/lib/nfs/etab
+%config(noreplace) %ghost %{_localstatedir}/lib/nfs/rmtab
 %config(noreplace) %{_sysconfdir}/exports
 /sbin/rpcdebug
 /sbin/nfsdebug
@@ -266,14 +266,14 @@ rm -rf %{buildroot}
 %{_mandir}/man8/rpc.statd.8*
 %{_mandir}/man8/statd.8*
 %{_mandir}/man8/showmount.8*
-%dir %{_localstatedir}/nfs
-%dir %{_localstatedir}/nfs/v4recovery
-%dir %{_localstatedir}/nfs/state
-%dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/sm
-%dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/nfs/statd
+%dir %{_localstatedir}/lib/nfs
+%dir %{_localstatedir}/lib/nfs/v4recovery
+%dir %{_localstatedir}/lib/nfs/state
+%dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/sm
+%dir %attr(0700,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/statd
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
-%dir %{_localstatedir}/nfs/rpc_pipefs
+%dir %{_localstatedir}/lib/nfs/rpc_pipefs
 %{_sbindir}/rpc.idmapd
 %{_sbindir}/rpc.gssd
 %{_sbindir}/gss_clnt_send_err
