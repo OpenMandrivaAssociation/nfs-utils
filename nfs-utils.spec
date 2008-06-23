@@ -224,25 +224,20 @@ rm -rf %{buildroot}
 %config(noreplace) %ghost %{_localstatedir}/lib/nfs/etab
 %config(noreplace) %ghost %{_localstatedir}/lib/nfs/rmtab
 %config(noreplace) %{_sysconfdir}/exports
-/sbin/rpcdebug
-/sbin/nfsdebug
 /sbin/nfsddebug
 %{_sbindir}/exportfs
-%{_sbindir}/nfsstat
 %{_sbindir}/rpc.mountd
 %{_sbindir}/rpc.nfsd
+%{_sbindir}/rpc.svcgssd
 %{_mandir}/man5/exports.5*
 %{_mandir}/man7/nfsd.7*
 %{_mandir}/man8/exportfs.8*
 %{_mandir}/man8/mountd.8*
 %{_mandir}/man8/nfsd.8*
-%{_mandir}/man8/nfsstat.8*
 %{_mandir}/man8/rpc.mountd.8*
 %{_mandir}/man8/rpc.nfsd.8*
-%{_sbindir}/rpc.svcgssd
 %{_mandir}/man8/rpc.svcgssd.8*
 %{_mandir}/man8/svcgssd.8*
-%{_mandir}/man8/rpcdebug.8*
 
 %files clients
 %defattr(-,root,root)
@@ -255,6 +250,8 @@ rm -rf %{buildroot}
 /sbin/mount.nfs4
 /sbin/umount.nfs
 /sbin/umount.nfs4
+/sbin/rpcdebug
+/sbin/nfsdebug
 %{_sbindir}/sm-notify
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
@@ -266,6 +263,8 @@ rm -rf %{buildroot}
 %{_mandir}/man8/rpc.statd.8*
 %{_mandir}/man8/statd.8*
 %{_mandir}/man8/showmount.8*
+%{_mandir}/man8/nfsstat.8*
+%{_mandir}/man8/rpcdebug.8*
 %dir %{_localstatedir}/lib/nfs
 %dir %{_localstatedir}/lib/nfs/v4recovery
 %dir %{_localstatedir}/lib/nfs/state
@@ -274,6 +273,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %dir %{_localstatedir}/lib/nfs/rpc_pipefs
+%{_sbindir}/nfsstat
 %{_sbindir}/rpc.idmapd
 %{_sbindir}/rpc.gssd
 %{_sbindir}/gss_clnt_send_err
