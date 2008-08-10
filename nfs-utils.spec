@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.1.2
-Release:	%mkrel 3
+Version:	1.1.3
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,13 +15,8 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
-Patch1:		eepro-support.patch
 Patch3:		nfs-utils-1.1.0-perms.patch
-# Local Patches (FC)
-Patch51:	nfs-utils-1.0.6-mountd.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
-Patch54:	nfs-utils-1.0.7-mountd-stat64.patch
-Patch55:	nfs-utils-1.1.1-non-writable-mtab.patch
 Requires:	nfs-utils-clients
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -79,12 +74,8 @@ find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
 find . -type f -perm 0444 -exec chmod 644 {} \;
 
-%patch1 -p1 -b .eepro-support
 %patch3 -p1 -b .perms
-%patch51 -p1 -b .mountd
 %patch52 -p1 -b .conf
-%patch54 -p1 -b .stat64
-%patch55 -p1 -b .non-writable-mtab
 
 cp %{SOURCE8} nfsv4.schema
 
