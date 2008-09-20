@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.3
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,6 +15,7 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
+Source11: 	bash-completion
 Patch3:		nfs-utils-1.1.0-perms.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Requires:	nfs-utils-clients
@@ -151,6 +152,10 @@ install -m 644 README README.1.1.0.upgrade.urpmi ChangeLog COPYING NEWS \
                nfs/*.html nfs/*.ps nfsv4.schema \
                %{buildroot}%{_docdir}/%{name}
 
+# bash completion
+install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
+install -m 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
+
 %post
 %_post_service nfs-server
 if [ $1 = 2 ]; then
@@ -234,6 +239,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %dir %{_docdir}/%{name}
 %{_docdir}/%{name}/README*
+%{_sysconfdir}/bash_completion.d/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-common
 %{_initrddir}/nfs-common
 /sbin/rpc.statd
