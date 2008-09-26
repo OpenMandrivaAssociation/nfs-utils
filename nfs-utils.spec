@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.3
-Release:	%mkrel 4
+Release:	%mkrel 5
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -187,7 +187,7 @@ fi
 %_post_service nfs-common
 # restart nfs-server service if running
 if [ -f /var/lock/subsys/nfs-server ]; then
-    /sbin/service nfs-server restart > /dev/null 2>&1 ||
+    /sbin/service nfs-server restart > /dev/null 2>&1 || :
 fi
 if [ $1 = 2 ]; then
     # handle upgrade from previous init script scheme
