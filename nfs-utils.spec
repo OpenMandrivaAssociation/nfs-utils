@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.3
-Release:	%mkrel 5
+Release:	%mkrel 6
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -18,7 +18,7 @@ Source10:	idmapd.conf
 Source11: 	bash-completion
 Patch3:		nfs-utils-1.1.0-perms.patch
 Patch52:	nfs-utils-1.0.6-idmap.conf.patch
-Requires:	nfs-utils-clients = %{version}-%{release}
+Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
