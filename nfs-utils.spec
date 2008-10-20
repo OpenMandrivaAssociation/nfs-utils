@@ -1,12 +1,12 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.1.3
-Release:	%mkrel 7
+Version:	1.1.4
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
 URL:		http://sourceforge.net/projects/nfs/
-Source0:	http://prdownloads.sourceforge.net/nfs/%{name}-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/nfs/%{name}-%{version}.tar.bz2
 Source1:	ftp://nfs.sourceforge.net/pub/nfs/nfs.doc.tar.bz2
 Source2:	nfs-common.init
 Source3:	nfs-server.init
@@ -17,7 +17,6 @@ Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
 Source11: 	bash-completion
 Patch3:		nfs-utils-1.1.0-perms.patch
-Patch52:	nfs-utils-1.0.6-idmap.conf.patch
 Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -76,7 +75,6 @@ find . -type f -perm 0555 -exec chmod 755 {} \;
 find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %patch3 -p1 -b .perms
-%patch52 -p1 -b .conf
 
 cp %{SOURCE8} nfsv4.schema
 
