@@ -78,6 +78,7 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 cp %{SOURCE8} nfsv4.schema
 
 %build
+libtoolize --force
 autoreconf
 %serverbuild
 %configure2_5x \
