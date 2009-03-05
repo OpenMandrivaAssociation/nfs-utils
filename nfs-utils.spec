@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.1.4
-Release:	%mkrel 3
+Version:	1.1.5
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,7 +15,6 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
-Patch3:		nfs-utils-1.1.0-perms.patch
 Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -68,18 +67,9 @@ that host.
 %prep
 %setup -q -a1 -n %{name}-%{version}
 
-# fix strange perms
-find . -type d -perm 0700 -exec chmod 755 {} \;
-find . -type f -perm 0555 -exec chmod 755 {} \;
-find . -type f -perm 0444 -exec chmod 644 {} \;
-
-%patch3 -p1 -b .perms
-
 cp %{SOURCE8} nfsv4.schema
 
 %build
-libtoolize --force
-autoreconf
 %serverbuild
 %configure2_5x \
     --with-statedir=%{_localstatedir}/lib/nfs \
@@ -150,12 +140,15 @@ install -m 644 README README.1.1.0.upgrade.urpmi ChangeLog COPYING NEWS \
                nfs/*.html nfs/*.ps nfsv4.schema \
                %{buildroot}%{_docdir}/%{name}
 
+# fix perms
+chmod 4555 %{buildroot}/sbin/mount.nfs
+
 %post
 %_post_service nfs-server
 if [ $1 = 2 ]; then
     # handle upgrade from previous init script scheme
     if [ -f %{_initrddir}/nfs ]; then
-        # map activation status of old script
+        # ap activation status of old script
         if [ `LC_ALL=C chkconfig --list nfs | cut -f 5` == '3:on' ]; then
             chkconfig --add nfs-server
         fi
