@@ -1,6 +1,6 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.1.5
+Version:	1.1.6
 Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
@@ -77,9 +77,9 @@ cp %{SOURCE8} nfsv4.schema
     --enable-nfsv3 \
     --enable-nfsv4 \
     --enable-gss \
-    --enable-secure-statd \
-    --with-krb5=%{_prefix} \
-    --disable-rquotad
+    --enable-tirpc \
+    --enable-ipv6 \
+    --with-krb5=%{_prefix}
 
 make all
 
