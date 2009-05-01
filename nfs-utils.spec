@@ -27,7 +27,8 @@ BuildRequires:	libevent-devel
 BuildRequires:	nfsidmap-devel >= 0.16
 BuildRequires:	rpcsecgss-devel >= 0.12
 BuildRequires:	tcp_wrappers-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	tirpc-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 The nfs-utils package provides a daemon for the kernel NFS server
