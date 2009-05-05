@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.1.6
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -45,7 +45,7 @@ that host.
 %package	clients
 Summary:	The utilities for Linux NFS client
 Group:		Networking/Other
-Requires:	portmapper
+Requires:	rpcbind
 # needed because of service scripts and rpcdebug/nfsstat transfer
 Conflicts:  nfs-utils < 1:1.1.2-3mdv
 Requires(pre): rpm-helper
