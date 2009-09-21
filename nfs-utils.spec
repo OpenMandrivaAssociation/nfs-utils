@@ -28,6 +28,7 @@ BuildRequires:	nfsidmap-devel >= 0.16
 BuildRequires:	rpcsecgss-devel >= 0.12
 BuildRequires:	tcp_wrappers-devel
 BuildRequires:	tirpc-devel
+BuildRequires:	libblkid-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
