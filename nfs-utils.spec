@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.2.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -81,7 +81,8 @@ cp %{SOURCE8} nfsv4.schema
     --enable-gss \
     --enable-tirpc \
     --enable-ipv6 \
-    --with-krb5=%{_prefix}
+    --with-krb5=%{_prefix} \
+    --enable-mountconfig
 
 make all
 
@@ -245,6 +246,7 @@ rm -rf %{buildroot}
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
 %{_mandir}/man5/nfs.5*
+%{_mandir}/man5/nfsmount.conf.5*
 %{_mandir}/man8/mount.nfs.8*
 %{_mandir}/man8/rpc.sm-notify.8*
 %{_mandir}/man8/sm-notify.8*
