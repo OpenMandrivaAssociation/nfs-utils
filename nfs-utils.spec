@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.2.1
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,6 +15,8 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
+# http://git.linux-nfs.org/?p=bfields/nfs-utils.git;a=commitdiff;h=55201a20111a35253698af20fb6289bd48c15dd5
+Patch0:		mount-fall-back-to-v2-v3-on-any-v4-mount-error.patch
 Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -68,6 +70,7 @@ that host.
 
 %prep
 %setup -q -a1 -n %{name}-%{version}
+%patch0 -p1 -b .mount-fallback
 
 cp %{SOURCE8} nfsv4.schema
 
