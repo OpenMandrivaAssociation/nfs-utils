@@ -29,6 +29,7 @@ BuildRequires:	rpcsecgss-devel >= 0.12
 BuildRequires:	tcp_wrappers-devel
 BuildRequires:	tirpc-devel
 BuildRequires:	libblkid-devel
+BuildRequires:	libcap-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
