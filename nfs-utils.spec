@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.2.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,6 +15,7 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
+Patch0:     nfs-utils-1.2.2-fix-configure.patch
 Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -69,6 +70,8 @@ that host.
 
 %prep
 %setup -q -a1 -n %{name}-%{version}
+%patch0 -p 1
+autoreconf
 
 cp %{SOURCE8} nfsv4.schema
 
