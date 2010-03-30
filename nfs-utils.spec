@@ -34,16 +34,7 @@ BuildRequires:	libcap-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
-The nfs-utils package provides a daemon for the kernel NFS server
-and related tools, which provides a much higher level of
-performance than the traditional Linux NFS server used by most
-users.
-
-This package also contains the showmount program. Showmount
-queries the mount daemon on a remote host for information about
-the NFS (Network File System) server on the remote host. For
-example, showmount can display the clients which are mounted on
-that host.
+This package provides various programs needed for NFS support on server.
 
 %package	clients
 Summary:	The utilities for Linux NFS client
@@ -57,16 +48,7 @@ Requires(preun): rpm-helper
 Requires(postun): rpm-helper
 
 %description	clients
-The nfs-utils package provides a daemon for the kernel NFS server
-and related tools, which provides a much higher level of
-performance than the traditional Linux NFS server used by most
-users.
-
-This package also contains the showmount program. Showmount
-queries the mount daemon on a remote host for information about
-the NFS (Network File System) server on the remote host. For
-example, showmount can display the clients which are mounted on
-that host.
+This package provides various programs needed for NFS support on client.
 
 %prep
 %setup -q -a1 -n %{name}-%{version}
