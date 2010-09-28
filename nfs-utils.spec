@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.2
-Release:	%mkrel 4
+Version:	1.2.3
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -15,7 +15,6 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
-Patch0:     nfs-utils-1.2.2-fix-configure.patch
 Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
@@ -52,8 +51,6 @@ This package provides various programs needed for NFS support on client.
 
 %prep
 %setup -q -a1 -n %{name}-%{version}
-%patch0 -p 1
-autoreconf -fi
 
 cp %{SOURCE8} nfsv4.schema
 
@@ -67,11 +64,10 @@ cp %{SOURCE8} nfsv4.schema
     --enable-ipv6 \
     --enable-gss \
     --enable-tirpc \
-    --enable-ipv6 \
     --with-krb5=%{_prefix} \
     --enable-mountconfig
 
-make all
+make all CFLAGS="%{optflags} -DDEBUG"
 
 %install
 rm -rf %{buildroot}
@@ -232,6 +228,8 @@ rm -rf %{buildroot}
 %{_sbindir}/sm-notify
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
+%{_sbindir}/mountstats
+%{_sbindir}/nfsiostat
 %{_mandir}/man5/nfs.5*
 %{_mandir}/man5/nfsmount.conf.5*
 %{_mandir}/man8/mount.nfs.8*
@@ -243,6 +241,8 @@ rm -rf %{buildroot}
 %{_mandir}/man8/showmount.8*
 %{_mandir}/man8/nfsstat.8*
 %{_mandir}/man8/rpcdebug.8*
+%{_mandir}/man8/mountstats.8*
+%{_mandir}/man8/nfsiostat.8*
 %dir %{_localstatedir}/lib/nfs
 %dir %{_localstatedir}/lib/nfs/v4recovery
 %dir %{_localstatedir}/lib/nfs/state
