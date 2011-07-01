@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.3
-Release:	%mkrel 3
+Version:	1.2.4
+Release:	%mkrel 1
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -230,6 +230,7 @@ rm -rf %{buildroot}
 %{_sbindir}/showmount
 %{_sbindir}/mountstats
 %{_sbindir}/nfsiostat
+%{_sbindir}/nfsidmap
 %{_mandir}/man5/nfs.5*
 %{_mandir}/man5/nfsmount.conf.5*
 %{_mandir}/man8/mount.nfs.8*
@@ -243,6 +244,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/rpcdebug.8*
 %{_mandir}/man8/mountstats.8*
 %{_mandir}/man8/nfsiostat.8*
+%{_mandir}/man8/nfsidmap.8.*
 %dir %{_localstatedir}/lib/nfs
 %dir %{_localstatedir}/lib/nfs/v4recovery
 %dir %{_localstatedir}/lib/nfs/state
