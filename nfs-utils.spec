@@ -30,6 +30,7 @@ BuildRequires:	tcp_wrappers-devel
 BuildRequires:	tirpc-devel
 BuildRequires:	libblkid-devel
 BuildRequires:	libcap-devel
+BuildRequires:	keyutils-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
