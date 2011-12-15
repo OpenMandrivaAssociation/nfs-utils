@@ -1,8 +1,8 @@
+Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.4
-Release:	%mkrel 1
-Summary:	The utilities for Linux NFS server
+Version:	1.2.5
+Release:	1
 Group:		Networking/Other
 License:	GPL
 URL:		http://sourceforge.net/projects/nfs/
@@ -15,7 +15,7 @@ Source5:	nfs-server.sysconfig
 Source8:	nfsv4.schema
 Source9:	gssapi_mech.conf
 Source10:	idmapd.conf
-Requires:	nfs-utils-clients = %{epoch}:%{version}-%{release}
+Requires:	nfs-utils-clients >= %{epoch}:%{version}-%{release}
 # needed because of /etc/exports transfer
 Conflicts:	setup < 2.7.8
 Conflicts:	clusternfs
@@ -23,15 +23,16 @@ Requires(post): rpm-helper
 Requires(preun): rpm-helper
 Requires:	    tcp_wrappers
 BuildRequires:	krb5-devel >= 1.3
-BuildRequires:	libevent-devel
-BuildRequires:	nfsidmap-devel >= 0.16
-BuildRequires:	rpcsecgss-devel >= 0.12
-BuildRequires:	tcp_wrappers-devel
-BuildRequires:	tirpc-devel
-BuildRequires:	libblkid-devel
-BuildRequires:	libcap-devel
+BuildRequires:	cap-devel
 BuildRequires:	keyutils-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}
+BuildRequires:	tcp_wrappers-devel
+BuildRequires:	pkgconfig(blkid)
+BuildRequires:	pkgconfig(devmapper)
+BuildRequires:	pkgconfig(libevent)
+BuildRequires:	pkgconfig(libgssglue) >= 0.3
+BuildRequires:	pkgconfig(libnfsidmap) >= 0.25
+BuildRequires:	pkgconfig(librpcsecgss) >= 0.19
+BuildRequires:	pkgconfig(libtirpc) >= 0.2.2
 
 %description
 This package provides various programs needed for NFS support on server.
@@ -59,9 +60,11 @@ cp %{SOURCE8} nfsv4.schema
 %serverbuild
 %configure2_5x \
     --with-statedir=%{_localstatedir}/lib/nfs \
+    --with-statdpath=%{_localstatedir}/lib/nfs \
     --with-statduser=rpcuser \
     --enable-nfsv3 \
     --enable-nfsv4 \
+    --enable-nfsv41 \
     --enable-ipv6 \
     --enable-gss \
     --enable-tirpc \
@@ -127,9 +130,6 @@ install -m 644 README README.1.1.0.upgrade.urpmi ChangeLog COPYING NEWS \
                nfs/*.html nfs/*.ps nfsv4.schema \
                %{buildroot}%{_docdir}/%{name}
 
-# fix perms
-chmod 4555 %{buildroot}/sbin/mount.nfs
-
 %post
 %_post_service nfs-server
 if [ $1 = 2 ]; then
@@ -185,11 +185,7 @@ fi
 %postun clients
 %_postun_userdel rpcuser
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %{_docdir}/%{name}/*
 %exclude %{_docdir}/%{name}/README*
 %{_initrddir}/nfs-server
@@ -214,38 +210,40 @@ rm -rf %{buildroot}
 %{_mandir}/man8/svcgssd.8*
 
 %files clients
-%defattr(-,root,root)
 %dir %{_docdir}/%{name}
 %{_docdir}/%{name}/README*
 %config(noreplace) %{_sysconfdir}/sysconfig/nfs-common
 %{_initrddir}/nfs-common
 /sbin/rpc.statd
-/sbin/mount.nfs
+# suid bit on here, otherwise strip can't touch it
+%attr(4555,root,root) /sbin/mount.nfs
 /sbin/mount.nfs4
 /sbin/umount.nfs
 /sbin/umount.nfs4
 /sbin/rpcdebug
 /sbin/nfsdebug
+%{_sbindir}/blkmapd
+%{_sbindir}/mountstats
+%{_sbindir}/nfsidmap
+%{_sbindir}/nfsiostat
+%{_sbindir}/showmount
 %{_sbindir}/sm-notify
 %{_sbindir}/start-statd
-%{_sbindir}/showmount
-%{_sbindir}/mountstats
-%{_sbindir}/nfsiostat
-%{_sbindir}/nfsidmap
 %{_mandir}/man5/nfs.5*
 %{_mandir}/man5/nfsmount.conf.5*
+%{_mandir}/man8/blkmapd.8*
 %{_mandir}/man8/mount.nfs.8*
-%{_mandir}/man8/rpc.sm-notify.8*
-%{_mandir}/man8/sm-notify.8*
-%{_mandir}/man8/umount.nfs.8*
-%{_mandir}/man8/rpc.statd.8*
-%{_mandir}/man8/statd.8*
-%{_mandir}/man8/showmount.8*
+%{_mandir}/man8/mountstats.8*
+%{_mandir}/man8/nfsidmap.8.*
+%{_mandir}/man8/nfsiostat.8*
 %{_mandir}/man8/nfsstat.8*
 %{_mandir}/man8/rpcdebug.8*
-%{_mandir}/man8/mountstats.8*
-%{_mandir}/man8/nfsiostat.8*
-%{_mandir}/man8/nfsidmap.8.*
+%{_mandir}/man8/rpc.sm-notify.8*
+%{_mandir}/man8/rpc.statd.8*
+%{_mandir}/man8/showmount.8*
+%{_mandir}/man8/sm-notify.8*
+%{_mandir}/man8/statd.8*
+%{_mandir}/man8/umount.nfs.8*
 %dir %{_localstatedir}/lib/nfs
 %dir %{_localstatedir}/lib/nfs/v4recovery
 %dir %{_localstatedir}/lib/nfs/state
@@ -254,12 +252,12 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %dir %{_localstatedir}/lib/nfs/rpc_pipefs
-%{_sbindir}/nfsstat
-%{_sbindir}/rpc.idmapd
-%{_sbindir}/rpc.gssd
 %{_sbindir}/gss_clnt_send_err
 %{_sbindir}/gss_destroy_creds
-%{_mandir}/man8/rpc.gssd.8*
-%{_mandir}/man8/rpc.idmapd.8*
+%{_sbindir}/nfsstat
+%{_sbindir}/rpc.gssd
+%{_sbindir}/rpc.idmapd
 %{_mandir}/man8/gssd.8*
 %{_mandir}/man8/idmapd.8*
+%{_mandir}/man8/rpc.gssd.8*
+%{_mandir}/man8/rpc.idmapd.8*
