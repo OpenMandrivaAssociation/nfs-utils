@@ -1,7 +1,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.5
+Version:	1.2.6
 Release:	1
 Group:		Networking/Other
 License:	GPL
@@ -195,6 +195,7 @@ fi
 %config(noreplace) %ghost %{_localstatedir}/lib/nfs/rmtab
 %config(noreplace) %{_sysconfdir}/exports
 /sbin/nfsddebug
+/sbin/osd_login
 %{_sbindir}/exportfs
 %{_sbindir}/rpc.mountd
 %{_sbindir}/rpc.nfsd
