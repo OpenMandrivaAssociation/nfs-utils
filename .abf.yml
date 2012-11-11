@@ -1,0 +1,22 @@
+sources:
+  "gssapi_mech.conf:"	4965cad78bb2143aefad2baf0d3e8ee7e36cf952
+  "idmapd.conf:"	fd50413c960cb50d4d240051ebed225225477879
+  "id_resolver.conf:"	e35ddb4c6910eeb19c847ee241049c038c22c4ae
+  "nfs4-modalias.conf:"	6100117d449bcbe1942f44a788849febccdc9140
+  "nfs-blkmap.service:"	30dc4adb9e5756c83e56760b57f08b2a88cbdd72
+  "nfs-idmap.service:"	3e89e8305ca7b5e2f2553d58712bb80942d2f360
+  "nfs-lock.preconfig:"	6526014fefc1afcfc0a1f07e024b97d8a047a7ad
+  "nfs-lock.service:"	6e1b0b383d38dbb575714c25ecf60177d466a824
+  "nfs-mountd.service:"	089517f4012f1a3ad58d990441ecf05c845bb639
+  "nfs-rquotad.service:"	c0619cbc457c419b280b4499174acb0c12307443
+  "nfs-secure-server.service:"	bb69715ede645e3f457cba876c2626b9269d53f2
+  "nfs-secure.service:"	20f77843d05bc3b76cbee86eb3968560831a7d64
+  "nfs-server.postconfig:"	774639f7cb55de4ff442759b1717ff4cd2243c65
+  "nfs-server.preconfig:"	3580239ec1c83b9cb73e7ad7696ff7f2bfd714b0
+  "nfs-server.service:"	55513e0e62806787ceda79f4faff49f3d0ff27cc
+  "nfs.sysconfig:"	605215e29e47764d82c6e59778b434f92ef9acf0
+  "nfs.target:"	25425543a82e09fd612093153991dff30aa04119
+  "nfs-utils-1.2.6.tar.bz2:"	144634a4b5b3ad12c836f5dbcb49c62017035b96
+  "nfsv4.schema:"	03f8987a2ac47b7619e8e8d95ee9662c4a7a5598
+  "proc-fs-nfsd.mount:"	7308d819614d5e851842164bf3f0998d9966794d
+  "var-lib-nfs-rpc_pipefs.mount:"	f0498ffa7d0e9247a4757dbbaff1e44c0f1e3a2b
