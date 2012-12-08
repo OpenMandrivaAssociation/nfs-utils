@@ -1,7 +1,7 @@
 Name:		nfs-utils
 Epoch:		1
 Version:	1.2.6
-Release:	%mkrel 1
+Release:	2
 Summary:	The utilities for Linux NFS server
 Group:		Networking/Other
 License:	GPL
@@ -142,7 +142,7 @@ install -m 644 README ChangeLog COPYING NEWS %{SOURCE6} \
     %{buildroot}%{_docdir}/%{name}
 
 # fix perms
-chmod 4555 %{buildroot}/sbin/mount.nfs
+chmod 0755 %{buildroot}/sbin/mount.nfs
 
 %pre
 %_pre_useradd rpcuser %{_localstatedir}/lib/nfs /bin/false
