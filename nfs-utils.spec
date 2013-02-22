@@ -220,6 +220,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_mandir}/man8/rpcdebug.8*
 %{_mandir}/man8/mountstats.8*
 %{_mandir}/man8/nfsdcltrack.8*
+%{_mandir}/man8/nfsiostat.8*
 %{_mandir}/man8/nfsidmap.8*
 %{_mandir}/man8/blkmapd.8*
 %{_mandir}/man8/rpc.gssd.8*
