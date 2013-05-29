@@ -1,58 +1,54 @@
+Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
 Version:	1.2.7
-Release:	1
-Summary:	The utilities for Linux NFS server
+Release:	2
 Group:		Networking/Other
-License:	GPL
-URL:		http://sourceforge.net/projects/nfs/
+License:	GPLv2
+Url:		http://sourceforge.net/projects/nfs/
 Source0:	http://prdownloads.sourceforge.net/nfs/%{name}-%{version}.tar.bz2
 Source6:	nfsv4.schema
 Source7:	gssapi_mech.conf
 Source8:	idmapd.conf
-Source9:    id_resolver.conf
-Source10:   nfs.sysconfig
+Source9:	id_resolver.conf
+Source10:	nfs.sysconfig
 
-Source11: nfs-lock.service
-Source12: nfs-secure.service
-Source13: nfs-secure-server.service
-Source14: nfs-server.service
-Source15: nfs-blkmap.service
-Source16: nfs-rquotad.service
-Source17: nfs-mountd.service
-Source18: nfs-idmap.service
-Source19: nfs.target
+Source11:	nfs-lock.service
+Source12:	nfs-secure.service
+Source13:	nfs-secure-server.service
+Source14:	nfs-server.service
+Source15:	nfs-blkmap.service
+Source16:	nfs-rquotad.service
+Source17:	nfs-mountd.service
+Source18:	nfs-idmap.service
+Source19:	nfs.target
 %define nfs_services %{SOURCE11} %{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} %{SOURCE18} %{SOURCE19}
 
-Source20: var-lib-nfs-rpc_pipefs.mount
-Source21: proc-fs-nfsd.mount
+Source20:	var-lib-nfs-rpc_pipefs.mount
+Source21:	proc-fs-nfsd.mount
 %define nfs_automounts %{SOURCE20} %{SOURCE21}
 
-Source50: nfs-lock.preconfig
-Source51: nfs-server.preconfig
-Source52: nfs-server.postconfig
+Source50:	nfs-lock.preconfig
+Source51:	nfs-server.preconfig
+Source52:	nfs-server.postconfig
 %define nfs_configs %{SOURCE50} %{SOURCE51} %{SOURCE52}
 
-Source60: nfs4-modalias.conf
+Source60:	nfs4-modalias.conf
 
-Requires(pre): rpm-helper
-Requires(post): rpm-helper
-Requires(preun): rpm-helper
-Requires(postun): rpm-helper
-Requires:	rpcbind
-Requires:	    tcp_wrappers
+BuildRequires:  keyutils-devel
 BuildRequires:	krb5-devel >= 1.3
+BuildRequires:	libcap-devel
+BuildRequires:	wrap-devel
+BuildRequires:	pkgconfig(blkid)
+BuildRequires:  pkgconfig(devmapper)
 BuildRequires:	pkgconfig(libevent)
 BuildRequires:	pkgconfig(libnfsidmap) >= 0.16
-BuildRequires:	rpcsecgss-devel >= 0.12
-BuildRequires:	tcp_wrappers-devel
+BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
-BuildRequires:	pkgconfig(blkid)
-BuildRequires:	libcap-devel
-BuildRequires:  keyutils-devel
-BuildRequires:  libdevmapper-devel
-Obsoletes: nfs-utils-clients 
-Provides:	nfs-utils-clients
+Requires(pre,post,preun,postun):	rpm-helper
+Requires:	rpcbind
+Requires:	tcp_wrappers
+%rename		nfs-utils-clients 
 
 %description
 This package provides various programs needed for NFS support on server.
@@ -63,20 +59,18 @@ This package provides various programs needed for NFS support on server.
 %build
 %serverbuild
 %configure2_5x \
-    --with-statdpath=%{_localstatedir}/lib/nfs/statd \
-    --with-statduser=rpcuser \
-    --enable-nfsv4 \
-    --enable-ipv6 \
-    --enable-gss \
-    --enable-tirpc \
-    --with-krb5=%{_prefix} \
-    --enable-mountconfig
+	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
+	--with-statduser=rpcuser \
+	--enable-nfsv4 \
+	--enable-ipv6 \
+	--enable-gss \
+	--enable-tirpc \
+	--with-krb5=%{_prefix} \
+	--enable-mountconfig
 
 make all CFLAGS="%{optflags} -DDEBUG"
 
 %install
-rm -rf %{buildroot}
-
 install -d %{buildroot}{/sbin,/usr/sbin}
 install -d %{buildroot}%{_mandir}/{man5,man8}
 
@@ -126,7 +120,7 @@ install -d %{buildroot}%{_sysconfdir}/exports.d
 
 install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/idmapd.conf
-perl -pi -e "s|/usr/lib|%{_libdir}|g" %{buildroot}%{_sysconfdir}/gssapi_mech.conf
+sed -i -e "s|/usr/lib|%{_libdir}|g" %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 
 # nuke dupes
 rm -f %{buildroot}%{_sbindir}/rpcdebug
@@ -227,3 +221,4 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_mandir}/man8/rpc.idmapd.8*
 %{_mandir}/man8/gssd.8*
 %{_mandir}/man8/idmapd.8*
+
