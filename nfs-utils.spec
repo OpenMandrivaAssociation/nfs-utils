@@ -61,6 +61,7 @@ This package provides various programs needed for NFS support on server.
 %prep
 %setup -q
 %apply_patches
+find . -name *.o -delete
 
 
 %build
