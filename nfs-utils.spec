@@ -1,8 +1,8 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.7
-Release:	2
+Version:	1.2.8
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://sourceforge.net/projects/nfs/
@@ -132,7 +132,7 @@ EOF
 
 # manage documentation manually
 install -d -m 755 %{buildroot}%{_docdir}/%{name}
-install -m 644 README ChangeLog COPYING NEWS %{SOURCE6} \
+install -m 644 README COPYING NEWS %{SOURCE6} \
     %{buildroot}%{_docdir}/%{name}
 
 # fix perms
