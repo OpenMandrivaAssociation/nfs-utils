@@ -35,6 +35,11 @@ Source52:	nfs-server.postconfig
 
 Source60:	nfs4-modalias.conf
 
+Patch100:	nfs-utils-1.2.1-statdpath-man.patch
+Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
+Patch102:	nfs-utils-1.2.3-sm-notify-res_init.patch
+Patch103:	nfs-utils-1.2.5-idmap-errmsg.patch
+
 BuildRequires:  keyutils-devel
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libcap-devel
@@ -55,6 +60,8 @@ This package provides various programs needed for NFS support on server.
 
 %prep
 %setup -q
+%apply_patches
+
 
 %build
 %serverbuild
