@@ -65,7 +65,7 @@ find . -name *.o -delete
 
 
 %build
-%serverbuild
+%serverbuild_hardened
 %configure \
 	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
 	--with-statduser=rpcuser \
@@ -161,7 +161,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %dir %attr(700,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/statd
 %dir %attr(700,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/statd/sm
 %dir %attr(700,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/statd/sm.bak
-%config(noreplace) %attr(644,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/state
+%config(noreplace) %attr(644,rpcuser,rpcuser) %{_localstatedir}/lib/nfs/statd/state
 %config(noreplace) %{_localstatedir}/lib/nfs/xtab
 %config(noreplace) %{_localstatedir}/lib/nfs/etab
 %config(noreplace) %{_localstatedir}/lib/nfs/rmtab
@@ -175,6 +175,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_unitdir}/*
 /usr/lib/%{name}/scripts/*
 /sbin/nfsddebug
+/sbin/nfsdcltrack
 /sbin/rpc.statd
 /sbin/mount.nfs
 /sbin/mount.nfs4
@@ -191,15 +192,12 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
 %{_sbindir}/mountstats
-%{_sbindir}/nfsdcltrack
 %{_sbindir}/nfsiostat
 %{_sbindir}/nfsidmap
 %{_sbindir}/blkmapd
 %{_sbindir}/nfsstat
 %{_sbindir}/rpc.idmapd
 %{_sbindir}/rpc.gssd
-%{_sbindir}/gss_clnt_send_err
-%{_sbindir}/gss_destroy_creds
 %{_mandir}/man5/exports.5*
 %{_mandir}/man5/nfs.5*
 %{_mandir}/man5/nfsmount.conf.5*
