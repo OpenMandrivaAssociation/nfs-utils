@@ -1,8 +1,8 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.2.8
-Release:	7
+Version:	1.3.1
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://sourceforge.net/projects/nfs/
@@ -66,7 +66,7 @@ find . -name *.o -delete
 
 %build
 %serverbuild
-%configure2_5x \
+%configure \
 	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
 	--with-statduser=rpcuser \
 	--enable-nfsv4 \
