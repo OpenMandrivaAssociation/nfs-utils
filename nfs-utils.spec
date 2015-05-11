@@ -1,8 +1,8 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.3.1
-Release:	2
+Version:	1.3.3
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://sourceforge.net/projects/nfs/
