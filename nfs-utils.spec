@@ -187,7 +187,6 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_sbindir}/exportfs
 %{_sbindir}/rpc.mountd
 %{_sbindir}/rpc.nfsd
-%{_sbindir}/rpc.svcgssd
 %{_sbindir}/sm-notify
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
@@ -207,8 +206,6 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_mandir}/man8/nfsd.8*
 %{_mandir}/man8/rpc.mountd.8*
 %{_mandir}/man8/rpc.nfsd.8*
-%{_mandir}/man8/rpc.svcgssd.8*
-%{_mandir}/man8/svcgssd.8*
 %{_mandir}/man8/mount.nfs.8*
 %{_mandir}/man8/rpc.sm-notify.8*
 %{_mandir}/man8/sm-notify.8*
