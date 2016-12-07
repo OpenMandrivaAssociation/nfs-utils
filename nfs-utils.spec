@@ -1,28 +1,17 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	1.3.2
-Release:	4
+Version:	1.3.4
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
-Url:		http://sourceforge.net/projects/nfs/
+Url:		http://linux-nfs.org/
 Source0:	http://prdownloads.sourceforge.net/nfs/%{name}-%{version}.tar.bz2
 Source6:	nfsv4.schema
 Source7:	gssapi_mech.conf
 Source8:	idmapd.conf
 Source9:	id_resolver.conf
 Source10:	nfs.sysconfig
-
-Source11:	nfs-lock.service
-Source12:	nfs-secure.service
-Source13:	nfs-secure-server.service
-Source14:	nfs-server.service
-Source15:	nfs-blkmap.service
-Source16:	nfs-rquotad.service
-Source17:	nfs-mountd.service
-Source18:	nfs-idmap.service
-Source19:	nfs.target
-%define nfs_services %{SOURCE11} %{SOURCE12} %{SOURCE13} %{SOURCE14} %{SOURCE15} %{SOURCE16} %{SOURCE17} %{SOURCE18} %{SOURCE19}
 
 Source20:	var-lib-nfs-rpc_pipefs.mount
 Source21:	proc-fs-nfsd.mount
@@ -50,6 +39,7 @@ BuildRequires:	pkgconfig(libevent)
 BuildRequires:	pkgconfig(libnfsidmap) >= 0.16
 BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
+BuildRequires:	pkgconfig(mount)
 Requires(pre,post,preun,postun):	rpm-helper
 Requires:	rpcbind
 Requires:	tcp_wrappers
@@ -69,12 +59,14 @@ find . -name *.o -delete
 %configure \
 	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
 	--with-statduser=rpcuser \
+	--with-systemd=%{_unitdir} \
+	--enable-libmount-mount \
 	--enable-nfsv4 \
 	--enable-ipv6 \
 	--enable-gss \
 	--enable-tirpc \
 	--with-krb5=%{_prefix} \
-	--enable-mountconfig
+	--enable-mountconfig \
 
 make all CFLAGS="%{optflags} -DDEBUG"
 
@@ -104,14 +96,7 @@ install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/sysconfig/nfs
 install -d %{buildroot}%{_sysconfdir}/modprobe.d
 install -m 644 %{SOURCE60} %{buildroot}%{_sysconfdir}/modprobe.d/nfs.conf
 
-install -d %{buildroot}%{_unitdir}
 install -d %{buildroot}/usr/lib/%{name}/scripts
-for service in %{nfs_services} ; do
-	install -m 644 $service %{buildroot}%{_unitdir}
-done
-for service in %{nfs_automounts} ; do
-	install -m 644 $service %{buildroot}%{_unitdir}
-done
 for config in %{nfs_configs} ; do
 	install -m 755 $config %{buildroot}/usr/lib/%{name}/scripts
 done
