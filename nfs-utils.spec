@@ -6,7 +6,7 @@ Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
 Version:	2.2.1
-Release:	1
+Release:	2
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://linux-nfs.org/
@@ -71,9 +71,9 @@ secure communications.
 Summary:	Development library and header files for the nfsidmap library
 Group:		Development/C
 License:	BSD-like
-Requires:	%{libname} = %{version}-%{release}
-Provides:	libnfsidmap-devel = %{version}-%{release}
-Provides:	nfsidmap-devel  = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
+Provides:	libnfsidmap-devel = %{EVRD}
+Provides:	nfsidmap-devel  = %{EVRD}
 Obsoletes:	%{_lib}nfsidmap0-devel < 0.25-3
 
 %description -n %{devname}
