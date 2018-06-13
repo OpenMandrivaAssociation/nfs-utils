@@ -46,6 +46,7 @@ BuildRequires:	pkgconfig(libevent)
 BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	pkgconfig(mount)
+BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	systemd
 Requires(pre,post,preun,postun):	rpm-helper
 Requires:	rpcbind
