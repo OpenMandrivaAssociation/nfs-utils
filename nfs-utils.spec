@@ -5,8 +5,8 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.2.1
-Release:	2
+Version:	2.3.2
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://linux-nfs.org/
@@ -14,7 +14,7 @@ Url:		http://linux-nfs.org/
 # cd nfs-utils
 # git archive -o nfs-utils-%{version}.tar --prefix nfs-utils-%{version}/ nfs-utils-$(echo %{version} |sed -e 's,\.,-,g')
 # xz -9ef *.tar
-Source0:	%{name}-%{version}.tar.xz
+Source0:	https://mirrors.edge.kernel.org/pub/linux/utils/nfs-utils/%{version}/%{name}-%{version}.tar.xz
 Source6:	nfsv4.schema
 Source7:	gssapi_mech.conf
 Source8:	idmapd.conf
@@ -46,9 +46,10 @@ BuildRequires:	pkgconfig(libevent)
 BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	pkgconfig(mount)
+BuildRequires:	systemd
 Requires(pre,post,preun,postun):	rpm-helper
 Requires:	rpcbind
-Requires:	tcp_wrappers
+Requires:	kmod
 %rename		nfs-utils-clients 
 
 %description
@@ -91,14 +92,15 @@ find . -name *.o -delete
 %configure \
 	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
 	--with-statduser=rpcuser \
-	--with-systemd=%{_unitdir} \
+	--with-systemd=%{_systemunitdir} \
 	--enable-libmount-mount \
+	--without-tcp-wrappers \
 	--enable-nfsv4 \
 	--enable-ipv6 \
 	--enable-gss \
 	--enable-tirpc \
 	--with-krb5=%{_prefix} \
-	--enable-mountconfig \
+	--enable-mountconfig
 
 make all CFLAGS="%{optflags} -DDEBUG"
 
@@ -200,7 +202,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %{_sysconfdir}/modprobe.d/nfs.conf
-%{_unitdir}/*
+%{_systemunitdir}/*
 /usr/lib/%{name}/scripts/*
 /sbin/nfsddebug
 /sbin/nfsdcltrack
