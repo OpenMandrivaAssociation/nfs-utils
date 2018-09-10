@@ -181,7 +181,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 
 %files -n %{devname}
 %{_libdir}/libnfsidmap.so
-%{_includedir}/nfsidmap.h
+%{_includedir}/nfsidmap*.h
 %{_libdir}/pkgconfig/libnfsidmap.pc
 %{_mandir}/man3/*
 
@@ -229,11 +229,13 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_sbindir}/nfsidmap
 %{_sbindir}/blkmapd
 %{_sbindir}/nfsstat
+%{_sbindir}/nfsconf
 %{_sbindir}/rpc.idmapd
 %{_sbindir}/rpc.gssd
 %{_mandir}/man5/*
 %{_mandir}/man7/*
 %{_mandir}/man8/exportfs.8*
+%{_mandir}/man8/nfsconf.8*
 %{_mandir}/man8/mountd.8*
 %{_mandir}/man8/nfsd.8*
 %{_mandir}/man8/rpc.mountd.8*
@@ -256,4 +258,3 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_mandir}/man8/rpc.idmapd.8*
 %{_mandir}/man8/gssd.8*
 %{_mandir}/man8/idmapd.8*
-
