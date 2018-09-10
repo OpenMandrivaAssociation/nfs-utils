@@ -38,6 +38,7 @@ Patch103:	nfs-utils-1.2.5-idmap-errmsg.patch
 Patch104:	nfs-utils-2.3.2-no-werror.patch
 
 BuildRequires:  keyutils-devel
+BuildRequires:  pkgconfig(com_err)
 BuildRequires:	krb5-devel >= 1.3
 BuildRequires:	libcap-devel
 BuildRequires:	wrap-devel
