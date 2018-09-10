@@ -1,4 +1,4 @@
-%define major 0
+%define major 1
 %define libname %mklibname nfsidmap %{major}
 %define devname %mklibname nfsidmap -d
 
