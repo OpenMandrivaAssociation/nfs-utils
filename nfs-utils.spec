@@ -35,6 +35,7 @@ Source60:	nfs4-modalias.conf
 Patch100:	nfs-utils-1.2.1-statdpath-man.patch
 Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
 Patch103:	nfs-utils-1.2.5-idmap-errmsg.patch
+Patch104:	nfs-utils-2.3.2-no-werror.patch
 
 BuildRequires:  keyutils-devel
 BuildRequires:	krb5-devel >= 1.3
