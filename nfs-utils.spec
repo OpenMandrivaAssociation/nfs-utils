@@ -104,7 +104,10 @@ find . -name *.o -delete
 	--enable-gss \
 	--enable-tirpc \
 	--with-krb5=%{_prefix} \
-	--enable-mountconfig
+	--enable-mountconfig || :
+
+cat config.log
+exit 1
 
 make all CFLAGS="%{optflags} -DDEBUG"
 
