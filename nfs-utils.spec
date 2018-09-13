@@ -50,6 +50,7 @@ BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	pkgconfig(mount)
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	systemd
+BuildRequires:	rpm-helper
 Requires(pre,post,preun,postun):	rpm-helper
 Requires:	rpcbind
 Requires:	kmod
