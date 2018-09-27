@@ -6,7 +6,7 @@ Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
 Version:	2.3.3
-Release:	1
+Release:	2
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://linux-nfs.org/
@@ -49,7 +49,7 @@ BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	pkgconfig(mount)
 BuildRequires:	pkgconfig(sqlite3)
-BuildRequires:	systemd
+BuildRequires:	systemd-macros
 BuildRequires:	rpm-helper
 Requires(pre,post,preun,postun):	rpm-helper
 Requires:	rpcbind
@@ -96,7 +96,7 @@ find . -name *.o -delete
 %configure \
 	--with-statdpath=%{_localstatedir}/lib/nfs/statd \
 	--with-statduser=rpcuser \
-	--with-systemd=%{_systemunitdir} \
+	--with-systemd=%{_unitdir} \
 	--enable-libmount-mount \
 	--without-tcp-wrappers \
 	--enable-nfsv4 \
@@ -206,7 +206,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %config(noreplace) %{_sysconfdir}/idmapd.conf
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %{_sysconfdir}/modprobe.d/nfs.conf
-%{_systemunitdir}/*
+%{_unitdir}/*
 /usr/lib/%{name}/scripts/*
 /sbin/nfsddebug
 /sbin/nfsdcltrack
