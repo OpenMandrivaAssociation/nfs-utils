@@ -1,12 +1,13 @@
 %define major 1
 %define libname %mklibname nfsidmap %{major}
 %define devname %mklibname nfsidmap -d
+%define _disable_lto 1
 
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
 Version:	2.3.3
-Release:	3
+Release:	4
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://linux-nfs.org/
