@@ -107,7 +107,7 @@ find . -name *.o -delete
 	--with-krb5=%{_prefix} \
 	--enable-mountconfig
 
-make all CFLAGS="%{optflags} -DDEBUG"
+make all CFLAGS="%{optflags} -DDEBUG -fPIC"
 
 %install
 install -d %{buildroot}{/sbin,/usr/sbin}
