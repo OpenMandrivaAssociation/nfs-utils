@@ -1,17 +1,27 @@
+From 04c9e3cc26dd330d9cb524c02de610c3bccd4b7b Mon Sep 17 00:00:00 2001
+From: Mike Frysinger <vapier@gentoo.org>
+Date: Sat, 11 May 2019 22:51:35 +0200
+Subject: [PATCH] Don't build with -Werror flags
+
 https://bugs.gentoo.org/656984
 
-Don't build with -Werror flags.
+Signed-off-by: Lars Wendler <polynomial-c@gentoo.org>
+---
+ configure.ac | 34 +---------------------------------
+ 1 file changed, 1 insertion(+), 33 deletions(-)
 
+diff --git a/configure.ac b/configure.ac
+index 4d70961..e6e709c 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -544,45 +544,11 @@
+@@ -574,46 +574,14 @@ AC_SUBST(CPPFLAGS_FOR_BUILD)
  AC_SUBST(LDFLAGS_FOR_BUILD)
  
  my_am_cflags="\
 - -pipe \
   -Wall \
   -Wextra \
-- -Werror=strict-prototypes \
+  $rpcgen_cflags \
 - -Werror=missing-prototypes \
 - -Werror=missing-declarations \
 - -Werror=format=2 \
@@ -26,9 +36,10 @@ Don't build with -Werror flags.
 - -Werror=parentheses \
 - -Werror=aggregate-return \
 - -Werror=unused-result \
+  -Wno-cast-function-type \
   -fno-strict-aliasing \
  "
--
+ 
 -AC_DEFUN([CHECK_CCSUPPORT], [
 -  my_save_cflags="$CFLAGS"
 -  CFLAGS=$1
@@ -51,3 +62,6 @@ Don't build with -Werror flags.
  
  # Make sure that $ACLOCAL_FLAGS are used during a rebuild
  AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
+-- 
+2.21.0
+
