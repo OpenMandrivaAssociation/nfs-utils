@@ -1,20 +1,20 @@
-From 04c9e3cc26dd330d9cb524c02de610c3bccd4b7b Mon Sep 17 00:00:00 2001
+From b7df6ae89846104b99f46336592b928a5421c3d8 Mon Sep 17 00:00:00 2001
 From: Mike Frysinger <vapier@gentoo.org>
-Date: Sat, 11 May 2019 22:51:35 +0200
+Date: Sat, 16 Nov 2019 12:04:48 +0100
 Subject: [PATCH] Don't build with -Werror flags
 
 https://bugs.gentoo.org/656984
 
 Signed-off-by: Lars Wendler <polynomial-c@gentoo.org>
 ---
- configure.ac | 34 +---------------------------------
- 1 file changed, 1 insertion(+), 33 deletions(-)
+ configure.ac | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 4d70961..e6e709c 100644
+index 9ba9d4b5..26663264 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -574,46 +574,14 @@ AC_SUBST(CPPFLAGS_FOR_BUILD)
+@@ -581,47 +581,16 @@ AC_SUBST(CPPFLAGS_FOR_BUILD)
  AC_SUBST(LDFLAGS_FOR_BUILD)
  
  my_am_cflags="\
@@ -56,12 +56,12 @@ index 4d70961..e6e709c 100644
 -CHECK_CCSUPPORT([-Werror=int-conversion], [flg2])
 -CHECK_CCSUPPORT([-Werror=incompatible-pointer-types], [flg3])
 -CHECK_CCSUPPORT([-Werror=misleading-indentation], [flg4])
--
+ AX_GCC_FUNC_ATTRIBUTE([format])
+ 
 -AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4"])
 +AC_SUBST([AM_CFLAGS], ["$my_am_cflags"])
  
  # Make sure that $ACLOCAL_FLAGS are used during a rebuild
  AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
 -- 
-2.21.0
-
+2.24.0
