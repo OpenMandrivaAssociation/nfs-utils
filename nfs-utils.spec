@@ -87,7 +87,7 @@ header files.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 find . -name *.o -delete
 ./autogen.sh --no-configure
 
