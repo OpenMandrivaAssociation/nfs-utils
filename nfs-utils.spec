@@ -6,7 +6,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.4.2
+Version:	2.4.3
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -217,7 +217,6 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 /sbin/umount.nfs4
 /sbin/rpcdebug
 /sbin/nfsdebug
-/sbin/nfsdcld
 /lib/systemd/system-generators/nfs-server-generator
 /lib/systemd/system-generators/rpc-pipefs-generator
 %{_sbindir}/exportfs
@@ -227,6 +226,7 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_sbindir}/start-statd
 %{_sbindir}/showmount
 %{_sbindir}/mountstats
+%{_sbindir}/nfsdcld
 %{_sbindir}/nfsiostat
 %{_sbindir}/nfsidmap
 %{_sbindir}/blkmapd
