@@ -6,7 +6,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.4.3
+Version:	2.5.1
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -234,12 +234,14 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %{_sbindir}/nfsconf
 %{_sbindir}/rpc.idmapd
 %{_sbindir}/rpc.gssd
-%{_sbindir}/clddb-tool
+%{_sbindir}/nfsdclddb
+%{_sbindir}/nfsdclnts
 %{_mandir}/man5/*
 %{_mandir}/man7/*
 %{_mandir}/man8/exportfs.8*
 %{_mandir}/man8/nfsconf.8*
-%{_mandir}/man8/clddb-tool.8*
+%{_mandir}/man8/nfsdclddb.8.*
+%{_mandir}/man8/nfsdclnts.8.*
 %{_mandir}/man8/mountd.8*
 %{_mandir}/man8/nfsd.8*
 %{_mandir}/man8/rpc.mountd.8*
