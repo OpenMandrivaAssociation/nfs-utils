@@ -40,7 +40,7 @@ Patch102:	nfs-utils-2.3.4-no-werror.patch
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
 BuildRequires:	krb5-devel >= 1.3
-BuildRequires:	libcap-devel
+BuildRequires:	pkgconfig(libcap)
 BuildRequires:	wrap-devel
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:  pkgconfig(devmapper)
