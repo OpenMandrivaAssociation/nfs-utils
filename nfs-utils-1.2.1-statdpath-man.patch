@@ -1,5 +1,6 @@
---- nfs-utils-2.2.1/utils/statd/sm-notify.man.0100~	2017-11-02 15:53:53.000000000 +0100
-+++ nfs-utils-2.2.1/utils/statd/sm-notify.man	2017-11-05 12:33:30.558276592 +0100
+diff -up nfs-utils-2.5.3/utils/statd/sm-notify.man.orig nfs-utils-2.5.3/utils/statd/sm-notify.man
+--- nfs-utils-2.5.3/utils/statd/sm-notify.man.orig	2021-02-20 12:16:52.000000000 -0500
++++ nfs-utils-2.5.3/utils/statd/sm-notify.man	2021-05-06 12:50:44.221080339 -0400
 @@ -184,7 +184,7 @@ where NSM state information resides.
  If this option is not specified,
  .B sm-notify
@@ -9,7 +10,7 @@
  by default.
  .IP
  After starting,
-@@ -330,13 +330,13 @@ Currently, the
+@@ -338,13 +338,13 @@ Currently, the
  command supports sending notification only via datagram transport protocols.
  .SH FILES
  .TP 2.5i
@@ -26,9 +27,10 @@
  NSM state number for this host
  .TP 2.5i
  .I /proc/sys/fs/nfs/nsm_local_state
---- nfs-utils-2.2.1/utils/statd/statd.man.0100~	2017-11-02 15:53:53.000000000 +0100
-+++ nfs-utils-2.2.1/utils/statd/statd.man	2017-11-05 12:34:12.365152799 +0100
-@@ -253,7 +253,7 @@ where NSM state information resides.
+diff -up nfs-utils-2.5.3/utils/statd/statd.man.orig nfs-utils-2.5.3/utils/statd/statd.man
+--- nfs-utils-2.5.3/utils/statd/statd.man.orig	2021-05-06 12:49:46.346753461 -0400
++++ nfs-utils-2.5.3/utils/statd/statd.man	2021-05-06 12:50:44.222080345 -0400
+@@ -251,7 +251,7 @@ where NSM state information resides.
  If this option is not specified,
  .B rpc.statd
  uses
@@ -37,7 +39,7 @@
  by default.
  .IP
  After starting,
-@@ -425,13 +425,13 @@ If set to a positive integer, has the sa
+@@ -431,13 +431,13 @@ If set to a positive integer, has the sa
  .IR \-\-no\-notify .
  .SH FILES
  .TP 2.5i
@@ -53,4 +55,4 @@
 +.I /var/lib/nfs/statd/state
  NSM state number for this host
  .TP 2.5i
- .I /var/run/run.statd.pid
+ .I /run/run.statd.pid
