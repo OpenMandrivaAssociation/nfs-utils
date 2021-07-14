@@ -35,7 +35,7 @@ Source60:	nfs4-modalias.conf
 
 Patch100:	nfs-utils-1.2.1-statdpath-man.patch
 Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
-Patch102:	nfs-utils-2.3.4-no-werror.patch
+#Patch102:	nfs-utils-2.3.4-no-werror.patch
 
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
