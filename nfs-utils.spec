@@ -8,7 +8,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.5.4
+Version:	2.6.1
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -111,18 +111,17 @@ find . -name *.o -delete
 make all CFLAGS="%{optflags} -DDEBUG -fPIC"
 
 %install
-install -d %{buildroot}{/sbin,/usr/sbin}
 install -d %{buildroot}%{_mandir}/{man5,man8}
 
 %make \
 	DESTDIR=%{buildroot} \
+	sbindir=%{_bindir} \
 	MANDIR=%{buildroot}%{_mandir} \
-	SBINDIR=%{buildroot}%{_prefix}/sbin \
 	install
 
-install -m 755 tools/rpcdebug/rpcdebug %{buildroot}/sbin/
-ln -snf rpcdebug %{buildroot}/sbin/nfsdebug
-ln -snf rpcdebug %{buildroot}/sbin/nfsddebug
+install -m 755 tools/rpcdebug/rpcdebug %{buildroot}%{_bindir}
+ln -s rpcdebug %{buildroot}%{_bindir}/nfsdebug
+ln -s rpcdebug %{buildroot}%{_bindir}/nfsddebug
 
 install -d %{buildroot}%{_sysconfdir}
 install -m 644 utils/mount/nfsmount.conf %{buildroot}%{_sysconfdir}
@@ -136,15 +135,14 @@ install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/sysconfig/nfs
 install -d %{buildroot}%{_sysconfdir}/modprobe.d
 install -m 644 %{SOURCE60} %{buildroot}%{_sysconfdir}/modprobe.d/nfs.conf
 
-install -d %{buildroot}/usr/lib/%{name}/scripts
+install -d %{buildroot}%{_prefix}/lib/%{name}/scripts
 for config in %{nfs_configs} ; do
-	install -m 755 $config %{buildroot}/usr/lib/%{name}/scripts
+	install -m 755 $config %{buildroot}%{_prefix}/lib/%{name}/scripts
 done
 
 install -d %{buildroot}%{_localstatedir}/lib/nfs/rpc_pipefs
 
 touch %{buildroot}%{_localstatedir}/lib/nfs/rmtab
-mv %{buildroot}%{_sbindir}/rpc.statd %{buildroot}/sbin/
 
 install -d %{buildroot}%{_localstatedir}/lib/nfs/statd/sm
 install -d %{buildroot}%{_localstatedir}/lib/nfs/statd/sm.bak
@@ -154,11 +152,6 @@ install -d %{buildroot}%{_sysconfdir}/exports.d
 install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/gssapi_mech.conf
 install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/idmapd.conf
 sed -i -e "s|/usr/lib|%{_libdir}|g" %{buildroot}%{_sysconfdir}/gssapi_mech.conf
-
-mv %{buildroot}%{_prefix}/lib/systemd/* %{buildroot}/lib/systemd/
-
-# nuke dupes
-rm -f %{buildroot}%{_sbindir}/rpcdebug
 
 cat >%{buildroot}%{_sysconfdir}/exports <<EOF
 # /etc/exports: the access control list for filesystems which may be exported
@@ -171,10 +164,10 @@ install -m 644 README COPYING NEWS %{SOURCE6} \
     %{buildroot}%{_docdir}/%{name}
 
 # fix perms
-chmod 0755 %{buildroot}/sbin/mount.nfs
+chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 
 %pre
-%_pre_useradd rpcuser %{_localstatedir}/lib/nfs /bin/false
+%_pre_useradd rpcuser %{_localstatedir}/lib/nfs %{_bindir}/false
 
 %postun
 %_postun_userdel rpcuser
@@ -209,18 +202,20 @@ chmod 0755 %{buildroot}/sbin/mount.nfs
 %config(noreplace) %{_sysconfdir}/gssapi_mech.conf
 %{_sysconfdir}/modprobe.d/nfs.conf
 %{_unitdir}/*
-/usr/lib/%{name}/scripts/*
-/sbin/nfsddebug
-/sbin/nfsdcltrack
-/sbin/rpc.statd
-/sbin/mount.nfs
-/sbin/mount.nfs4
-/sbin/umount.nfs
-/sbin/umount.nfs4
-/sbin/rpcdebug
-/sbin/nfsdebug
-/lib/systemd/system-generators/nfs-server-generator
-/lib/systemd/system-generators/rpc-pipefs-generator
+%dir %{_prefix}/lib/%{name}
+%dir %{_prefix}/lib/%{name}/scripts
+%{_prefix}/lib/%{name}/scripts/*
+%{_sbindir}/nfsddebug
+%{_sbindir}/nfsdcltrack
+%{_sbindir}/rpc.statd
+%{_sbindir}/mount.nfs
+%{_sbindir}/mount.nfs4
+%{_sbindir}/umount.nfs
+%{_sbindir}/umount.nfs4
+%{_sbindir}/rpcdebug
+%{_sbindir}/nfsdebug
+%{_prefix}/lib/systemd/system-generators/nfs-server-generator
+%{_prefix}/lib/systemd/system-generators/rpc-pipefs-generator
 %{_sbindir}/exportfs
 %{_sbindir}/rpc.mountd
 %{_sbindir}/rpc.nfsd
