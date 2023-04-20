@@ -8,8 +8,8 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.6.2
-Release:	2
+Version:	2.6.3
+Release:	1
 Group:		Networking/Other
 License:	GPLv2
 Url:		http://linux-nfs.org/
@@ -38,7 +38,6 @@ Source60:	nfs4-modalias.conf
 Patch100:	nfs-utils-1.2.1-statdpath-man.patch
 Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
 Patch102:	nfs-utils-2.3.4-no-werror.patch
-Patch103:	nfs-utils-2.6.2-clang15.patch
 
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
@@ -215,6 +214,8 @@ chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 %{_sbindir}/umount.nfs4
 %{_sbindir}/rpcdebug
 %{_sbindir}/nfsdebug
+%{_sbindir}/fsidd
+%{_prefix}/lib/udev/rules.d/60-nfs.rules
 %{_prefix}/lib/systemd/system-generators/nfs-server-generator
 %{_prefix}/lib/systemd/system-generators/rpc-pipefs-generator
 %{_sbindir}/exportfs
@@ -264,7 +265,6 @@ chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 %{_mandir}/man8/idmapd.8*
 %{_mandir}/man8/nfsdcld.8*
 %{_bindir}/rpcctl
-%{_prefix}/lib/modprobe.d/50-nfs.conf
 %{_prefix}/lib/udev/rules.d/99-nfs.rules
 %{_libexecdir}/nfsrahead
 %{_mandir}/man8/rpcctl.8*
