@@ -1,14 +1,15 @@
 %define major 1
-%define libname %mklibname nfsidmap %{major}
+%define oldlibname %mklibname nfsidmap 1
+%define libname %mklibname nfsidmap
 %define devname %mklibname nfsidmap -d
-#define _disable_lto 1
+%define _disable_ld_no_undefined 1
 
 %global optflags %{optflags} -Wl,-z,notext
 
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.6.3
+Version:	2.6.4
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -38,6 +39,7 @@ Source60:	nfs4-modalias.conf
 Patch100:	nfs-utils-1.2.1-statdpath-man.patch
 Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
 Patch102:	nfs-utils-2.3.4-no-werror.patch
+Patch103:	nfs-utils-2.6.4-compile.patch
 
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
@@ -65,6 +67,7 @@ This package provides various programs needed for NFS support on server.
 Summary:	Library to help mapping IDs, mainly for NFSv4
 License:	BSD-like
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n %{libname}
 libnfsidmap is a library holding mulitiple methods of mapping
@@ -88,8 +91,7 @@ This package contains the development libnfsidmap library and its
 header files.
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 find . -name *.o -delete
 ./autogen.sh --no-configure
 
