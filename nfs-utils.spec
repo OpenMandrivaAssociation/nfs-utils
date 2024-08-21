@@ -9,7 +9,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.6.4
+Version:	2.7.1
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -39,7 +39,7 @@ Source60:	nfs4-modalias.conf
 Patch100:	nfs-utils-1.2.1-statdpath-man.patch
 Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
 Patch102:	nfs-utils-2.3.4-no-werror.patch
-Patch103:	nfs-utils-2.6.4-compile.patch
+#Patch103:	nfs-utils-2.6.4-compile.patch
 
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
@@ -237,12 +237,14 @@ chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 %{_sbindir}/rpc.gssd
 %{_sbindir}/nfsdclddb
 %{_sbindir}/nfsdclnts
+%{_bindir}/nfsref
 %{_mandir}/man5/*
 %{_mandir}/man7/*
 %{_mandir}/man8/exportfs.8*
 %{_mandir}/man8/nfsconf.8*
 %{_mandir}/man8/nfsdclddb.8*
 %{_mandir}/man8/nfsdclnts.8*
+%{_mandir}/man8/nfsref.8*
 %{_mandir}/man8/mountd.8*
 %{_mandir}/man8/nfsd.8*
 %{_mandir}/man8/rpc.mountd.8*
