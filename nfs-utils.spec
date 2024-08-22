@@ -169,11 +169,10 @@ install -m 644 README COPYING NEWS %{SOURCE6} \
 # fix perms
 chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 
-%pre
-%_pre_useradd rpcuser %{_localstatedir}/lib/nfs %{_bindir}/false
-
-%postun
-%_postun_userdel rpcuser
+mkdir -p %{buildroot}%{_sysusersdir}
+cat >%{buildroot}%{_sysusersdir}/rpcuser.conf <<EOF
+u rpcuser - "NFS RPC User" %{_localstatedir}/lib/nfs %{_bindir}/false
+EOF
 
 %files -n %{libname}
 %{_libdir}/libnfsidmap.so.%{major}*
@@ -186,6 +185,7 @@ chmod 0755 %{buildroot}%{_bindir}/mount.nfs
 %{_mandir}/man3/*
 
 %files
+%{_sysusersdir}/rpcuser.conf
 %{_docdir}/%{name}
 %dir %{_localstatedir}/lib/nfs
 %dir %{_localstatedir}/lib/nfs/v4recovery
