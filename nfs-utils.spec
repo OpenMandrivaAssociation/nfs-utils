@@ -53,6 +53,7 @@ BuildRequires:	pkgconfig(librpcsecgss)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	pkgconfig(mount)
 BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	systemd-macros
 BuildRequires:	rpm-helper
 Requires(pre,post,preun,postun):	rpm-helper
