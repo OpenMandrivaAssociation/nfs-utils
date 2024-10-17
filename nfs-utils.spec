@@ -13,7 +13,7 @@ Version:	2.7.1
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
-Url:		http://linux-nfs.org/
+Url:		https://linux-nfs.org/
 # git clone git://git.linux-nfs.org/projects/steved/nfs-utils.git
 # cd nfs-utils
 # git archive -o nfs-utils-%{version}.tar --prefix nfs-utils-%{version}/ nfs-utils-$(echo %{version} |sed -e 's,\.,-,g')
