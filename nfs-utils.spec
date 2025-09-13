@@ -9,7 +9,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.8.3
+Version:	2.8.4
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -223,6 +223,7 @@ EOF
 %{_prefix}/lib/udev/rules.d/60-nfs.rules
 %{_prefix}/lib/systemd/system-generators/nfs-server-generator
 %{_prefix}/lib/systemd/system-generators/rpc-pipefs-generator
+%{_prefix}/lib/systemd/system-generators/nfsroot-generator
 %{_sbindir}/exportfs
 %{_sbindir}/rpc.mountd
 %{_sbindir}/rpc.nfsd
