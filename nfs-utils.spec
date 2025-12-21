@@ -41,6 +41,11 @@ Patch101:	nfs-utils-1.2.1-exp-subtree-warn-off.patch
 Patch102:	nfs-utils-2.3.4-no-werror.patch
 #Patch103:	nfs-utils-2.6.4-compile.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:  keyutils-devel
 BuildRequires:  pkgconfig(com_err)
 BuildRequires:	krb5-devel >= 1.3
