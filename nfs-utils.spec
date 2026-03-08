@@ -9,7 +9,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.8.4
+Version:	2.8.6
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -239,7 +239,6 @@ EOF
 %{_sbindir}/nfsdcld
 %{_sbindir}/nfsiostat
 %{_sbindir}/nfsidmap
-%{_sbindir}/blkmapd
 %{_sbindir}/nfsstat
 %{_sbindir}/nfsconf
 %{_sbindir}/rpc.idmapd
@@ -271,7 +270,6 @@ EOF
 %{_mandir}/man8/mountstats.8*
 %{_mandir}/man8/nfsiostat.8*
 %{_mandir}/man8/nfsidmap.8*
-%{_mandir}/man8/blkmapd.8*
 %{_mandir}/man8/rpc.gssd.8*
 %{_mandir}/man8/rpc.idmapd.8*
 %{_mandir}/man8/gssd.8*
