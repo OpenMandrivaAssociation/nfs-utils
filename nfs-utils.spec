@@ -9,7 +9,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.8.6
+Version:	2.9.2
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
