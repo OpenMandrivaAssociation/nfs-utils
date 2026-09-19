@@ -9,7 +9,7 @@
 Summary:	The utilities for Linux NFS server
 Name:		nfs-utils
 Epoch:		1
-Version:	2.9.2
+Version:	3.1.1
 Release:	1
 Group:		Networking/Other
 License:	GPLv2
@@ -43,7 +43,6 @@ Patch102:	nfs-utils-2.3.4-no-werror.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:  keyutils-devel
@@ -100,6 +99,7 @@ header files.
 
 %prep
 %autosetup -p1
+sed -i 's/^libtoolize /slibtoolize /' autogen.sh
 find . -name *.o -delete
 ./autogen.sh --no-configure
 
