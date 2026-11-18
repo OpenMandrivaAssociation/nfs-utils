@@ -245,6 +245,8 @@ EOF
 %{_sbindir}/rpc.gssd
 %{_sbindir}/nfsdclddb
 %{_sbindir}/nfsdclnts
+%{_bindir}/nfs-fh-verify
+%{_bindir}/nfsd-iomode-advisor
 %{_bindir}/nfsref
 %{_mandir}/man5/*
 %{_mandir}/man7/*
@@ -252,6 +254,8 @@ EOF
 %{_mandir}/man8/nfsconf.8*
 %{_mandir}/man8/nfsdclddb.8*
 %{_mandir}/man8/nfsdclnts.8*
+%{_mandir}/man8/nfs-fh-verify.8*
+%{_mandir}/man8/nfsd-iomode-advisor.8*
 %{_mandir}/man8/nfsref.8*
 %{_mandir}/man8/mountd.8*
 %{_mandir}/man8/nfsd.8*
